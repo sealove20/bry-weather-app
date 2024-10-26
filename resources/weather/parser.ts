@@ -19,7 +19,7 @@ export const ForecastParser = {
 
     return {
       forecastDate: date,
-      averageTemperature: day.avgtemp_c,
+      averageTemperature: Math.floor(day.avgtemp_c),
       forecastIcon: day.condition.icon,
       averageHumidity: day.avghumidity,
     };
