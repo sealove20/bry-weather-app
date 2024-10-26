@@ -1,30 +1,45 @@
 import { Link } from "expo-router";
-import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useForecast } from "../hooks/useForecast";
+import { Image } from "expo-image";
 
 export default function Main() {
-  const { forecast } = useForecast();
+  const { nextForecasts, currentForecast, loading } = useForecast();
+
+  if (loading) {
+    return;
+  }
+
   return (
     <>
       <View style={styles.weatherForecast}>
-        <Text style={styles.city}>Florianópolis</Text>
-        <Text style={styles.temperature}>{22}°C</Text>
-        <Text style={styles.humidity}>Umidade 83%</Text>
+        <Text style={styles.city}>{currentForecast?.name}</Text>
+        <Text style={styles.temperature}>{currentForecast?.temperature}°C</Text>
+        <Image
+          style={styles.image}
+          source={{ uri: `https:${currentForecast?.forecastIcon}` }}
+          contentFit="cover"
+          transition={1000}
+        />
+        <Text style={styles.humidity}>Umidade {currentForecast?.humidity}%</Text>
       </View>
+      <Text>Próximos dias</Text>
       <View style={styles.weatherForecastMiniatureContainer}>
-        <Link href="/details" asChild>
-          <Pressable style={styles.weatherForecastMiniature}>
-            <Text style={styles.temperature}>22°C</Text>
-            <Text style={styles.humidity}>Umidade 83%</Text>
-          </Pressable>
-        </Link>
-        <Link href="/details" asChild>
-          <Pressable style={styles.weatherForecastMiniature}>
-            <Text style={styles.temperature}>22°C</Text>
-            <Text style={styles.humidity}>Umidade 83%</Text>
-          </Pressable>
-        </Link>
+        {nextForecasts?.map((forecast) => (
+          <Link href="/details" asChild>
+            <Pressable style={styles.weatherForecastMiniature}>
+              <Text style={styles.temperature}>{forecast?.averageTemperature}°C</Text>
+              <Image
+                style={styles.image}
+                source={{ uri: `https:${forecast?.forecastIcon}` }}
+                contentFit="cover"
+                transition={500}
+              />
+              <Text style={styles.humidity}>Umidade {forecast?.averageHumidity}%</Text>
+              <Text style={styles.humidity}>{forecast?.forecastDate}</Text>
+            </Pressable>
+          </Link>
+        ))}
       </View>
     </>
   );
@@ -58,14 +73,17 @@ const styles = StyleSheet.create({
   },
   weatherForecastMiniature: {
     alignItems: "center",
-    width: 80,
+    width: 200,
     height: 200,
     backgroundColor: "gray",
     borderRadius: 5,
     marginTop: 15,
   },
   weatherForecastMiniatureContainer: {
-    flexDirection: "row",
     gap: 15,
+  },
+  image: {
+    height: 50,
+    width: 50,
   },
 });
