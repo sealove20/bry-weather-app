@@ -1,12 +1,15 @@
 import { Link } from "expo-router";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useForecast } from "../hooks/useForecast";
 
 export default function Main() {
+  const { forecast } = useForecast();
   return (
     <>
       <View style={styles.weatherForecast}>
         <Text style={styles.city}>Florianópolis</Text>
-        <Text style={styles.temperature}>22°C</Text>
+        <Text style={styles.temperature}>{22}°C</Text>
         <Text style={styles.humidity}>Umidade 83%</Text>
       </View>
       <View style={styles.weatherForecastMiniatureContainer}>
