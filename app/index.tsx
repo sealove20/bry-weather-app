@@ -1,27 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from "expo-router";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function App() {
+export default function Main() {
   return (
-    <SafeAreaView style={styles.safeAreStyle}>
+    <>
       <View style={styles.weatherForecast}>
         <Text style={styles.city}>Florianópolis</Text>
         <Text style={styles.temperature}>22°C</Text>
         <Text style={styles.humidity}>Umidade 83%</Text>
       </View>
       <View style={styles.weatherForecastMiniatureContainer}>
-        <View style={styles.weatherForecastMiniature}>
-          <Text style={styles.temperature}>22°C</Text>
-          <Text style={styles.humidity}>Umidade 83%</Text>
-        </View>
-        <View style={styles.weatherForecastMiniature}>
-          <Text style={styles.temperature}>22°C</Text>
-          <Text style={styles.humidity}>Umidade 83%</Text>
-        </View>
+        <Link href="/details" asChild>
+          <Pressable style={styles.weatherForecastMiniature}>
+            <Text style={styles.temperature}>22°C</Text>
+            <Text style={styles.humidity}>Umidade 83%</Text>
+          </Pressable>
+        </Link>
+        <Link href="/details" asChild>
+          <Pressable style={styles.weatherForecastMiniature}>
+            <Text style={styles.temperature}>22°C</Text>
+            <Text style={styles.humidity}>Umidade 83%</Text>
+          </Pressable>
+        </Link>
       </View>
-      <StatusBar style="auto" translucent />
-    </SafeAreaView>
+    </>
   );
 }
 
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
   safeAreStyle: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center"
+    alignItems: "center",
   },
   weatherForecast: {
     alignItems: "center",
@@ -37,19 +39,19 @@ const styles = StyleSheet.create({
     height: "30%",
     backgroundColor: "gray",
     borderRadius: 5,
-    marginTop: 15
+    marginTop: 15,
   },
   temperature: {
     fontSize: 30,
-    color: "white"
+    color: "white",
   },
   city: {
     fontSize: 24,
-    color: "white"
+    color: "white",
   },
   humidity: {
-    fontSize: 24, 
-    color: "white"
+    fontSize: 24,
+    color: "white",
   },
   weatherForecastMiniature: {
     alignItems: "center",
@@ -57,10 +59,10 @@ const styles = StyleSheet.create({
     height: 200,
     backgroundColor: "gray",
     borderRadius: 5,
-    marginTop: 15
+    marginTop: 15,
   },
   weatherForecastMiniatureContainer: {
     flexDirection: "row",
-    gap: 15
-  }
+    gap: 15,
+  },
 });
