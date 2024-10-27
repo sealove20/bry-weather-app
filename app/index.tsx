@@ -8,18 +8,26 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { useForecast } from "../hooks/useForecast";
 import { Image } from "expo-image";
 import { useLocation } from "../hooks/useLocation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();
-  const { nextForecasts, currentForecast, loading, fetchForecast } = useForecast();
+  const {
+    nextForecasts,
+    currentForecast,
+    loading,
+    fetchForecastByUserCoordinates,
+    fetchByCityName,
+  } = useForecast();
   const [locationLoading, setLocationLoading] = useState(false);
+  const [text, onChangeText] = useState("");
 
   const loadCurrentLocationWeather = async () => {
     setLocationLoading(true);
@@ -31,7 +39,10 @@ export default function Main() {
 
     let location = await Location.getCurrentPositionAsync();
 
-    fetchForecast({ latitude: location.coords.latitude, longitude: location?.coords.longitude });
+    fetchForecastByUserCoordinates({
+      latitude: location.coords.latitude,
+      longitude: location?.coords.longitude,
+    });
 
     if (status === "granted") {
       setLocationLoading(false);
@@ -52,11 +63,16 @@ export default function Main() {
 
   return (
     <>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder="Florianópolis"
+        />
+        <Button title="Buscar previsão" onPress={() => fetchByCityName(text)} />
+      </View>
       <View style={styles.weatherForecast}>
-        <View>
-          <Text>Longitude{longitude}</Text>
-          <Text>Latitude{latitude}</Text>
-        </View>
         <Text style={styles.city}>{currentForecast?.name}</Text>
         <Text style={styles.temperature}>{currentForecast?.temperature}°C</Text>
         <Image
@@ -134,5 +150,16 @@ const styles = StyleSheet.create({
   image: {
     height: 50,
     width: 50,
+  },
+  inputContainer: {
+    width: "90%",
+  },
+  input: {
+    height: 40,
+    width: "100%",
+    marginTop: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 15,
   },
 });
