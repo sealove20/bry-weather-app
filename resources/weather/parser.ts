@@ -15,13 +15,14 @@ export const ForecastParser = {
     return nextForecasts.map(ForecastParser.nextForecastsSingle);
   },
   nextForecastsSingle: (nextForecasts: NextForecast) => {
-    const { day, date } = nextForecasts;
+    const { day, date, hour } = nextForecasts;
 
     return {
       forecastDate: date,
       averageTemperature: Math.floor(day.avgtemp_c),
       forecastIcon: day.condition.icon,
       averageHumidity: day.avghumidity,
+      hourlyForecast: hour,
     };
   },
 };

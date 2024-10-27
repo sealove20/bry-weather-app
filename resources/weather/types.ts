@@ -54,6 +54,7 @@ export interface NextForecastList {
   averageTemperature: number;
   averageHumidity: number;
   forecastIcon: string;
+  hourlyForecast: Hour[];
 }
 
 export interface UserCoordinates {

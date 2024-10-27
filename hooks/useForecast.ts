@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getByUserCoordinates, getByCityName } from "../resources/weather/weather";
 import { ForecastParser } from "../resources/weather/parser";
 import { CurrentForecast, NextForecastList, UserCoordinates } from "../resources/weather/types";
+import { storeData } from "../storage/asyncStorage";
 
 export const useForecast = () => {
   const [nextForecasts, setNextForecasts] = useState<NextForecastList[]>([]);
@@ -18,6 +19,7 @@ export const useForecast = () => {
       );
       setCurrentForecast(forecast);
       setNextForecasts(nextForecastsList);
+      storeData(nextForecasts[0].forecastDate, nextForecasts[0]);
     } catch (error) {
       console.error(error);
     } finally {
