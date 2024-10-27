@@ -56,6 +56,11 @@ export interface NextForecastList {
   forecastIcon: string;
 }
 
+export interface UserCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
 export interface NextForecast {
   date: string;
   date_epoch: number;

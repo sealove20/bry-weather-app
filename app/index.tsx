@@ -1,18 +1,62 @@
 import { Link } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  Linking,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useForecast } from "../hooks/useForecast";
 import { Image } from "expo-image";
+import { useLocation } from "../hooks/useLocation";
+import { useEffect, useState } from "react";
+import * as Location from "expo-location";
 
 export default function Main() {
-  const { nextForecasts, currentForecast, loading } = useForecast();
+  const { latitude, longitude, askForPermission } = useLocation();
+  const { nextForecasts, currentForecast, loading, fetchForecast } = useForecast();
+  const [locationLoading, setLocationLoading] = useState(false);
 
-  if (loading) {
-    return;
+  const loadCurrentLocationWeather = async () => {
+    setLocationLoading(true);
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      askForPermission();
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync();
+
+    fetchForecast({ latitude: location.coords.latitude, longitude: location?.coords.longitude });
+
+    if (status === "granted") {
+      setLocationLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCurrentLocationWeather();
+  }, []);
+
+  if (locationLoading || loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={true} size="large" color={"red"} />
+      </View>
+    );
   }
 
   return (
     <>
       <View style={styles.weatherForecast}>
+        <View>
+          <Text>Longitude{longitude}</Text>
+          <Text>Latitude{latitude}</Text>
+        </View>
         <Text style={styles.city}>{currentForecast?.name}</Text>
         <Text style={styles.temperature}>{currentForecast?.temperature}°C</Text>
         <Image
@@ -50,6 +94,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   weatherForecast: {
     alignItems: "center",
