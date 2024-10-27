@@ -63,6 +63,7 @@ export interface UserCoordinates {
 }
 
 export interface NextForecast {
+  name: string;
   date: string;
   date_epoch: number;
   day: {

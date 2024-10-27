@@ -17,9 +17,13 @@ export const useForecast = () => {
       const nextForecastsList = ForecastParser.nextForecastsList(
         response.forecast.forecastday.slice(-2),
       );
+      const forecastDetails = ForecastParser.forecastDetail(nextForecastsList);
       setCurrentForecast(forecast);
       setNextForecasts(nextForecastsList);
-      storeData(nextForecasts[0].forecastDate, nextForecasts[0]);
+
+      for (let forecast of nextForecastsList) {
+        storeData(forecast.forecastDate, forecastDetails[forecast.forecastDate]);
+      }
     } catch (error) {
       console.error(error);
     } finally {

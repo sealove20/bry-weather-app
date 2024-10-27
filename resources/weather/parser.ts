@@ -1,4 +1,4 @@
-import { CurrentForecast, Forecast, NextForecast } from "./types";
+import { CurrentForecast, Forecast, NextForecast, NextForecastList } from "./types";
 
 export const ForecastParser = {
   current: (forecast: Forecast): CurrentForecast => {
@@ -15,14 +15,23 @@ export const ForecastParser = {
     return nextForecasts.map(ForecastParser.nextForecastsSingle);
   },
   nextForecastsSingle: (nextForecasts: NextForecast) => {
-    const { day, date, hour } = nextForecasts;
+    const { day, date, hour, name } = nextForecasts;
 
     return {
+      forecastLocationName: name,
       forecastDate: date,
       averageTemperature: Math.floor(day.avgtemp_c),
       forecastIcon: day.condition.icon,
       averageHumidity: day.avghumidity,
       hourlyForecast: hour,
     };
+  },
+  forecastDetail: (nextForecastList: NextForecastList[]) => {
+    const forecastDetail: { [key: string]: NextForecastList } = {};
+    nextForecastList.forEach((forecast) => {
+      forecastDetail[forecast.forecastDate] = forecast;
+    });
+
+    return forecastDetail;
   },
 };

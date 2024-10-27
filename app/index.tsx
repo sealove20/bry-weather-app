@@ -86,8 +86,8 @@ export default function Main() {
       <Text>Próximos dias</Text>
       <View style={styles.weatherForecastMiniatureContainer}>
         {nextForecasts?.map((forecast) => (
-          <Link href="/details" asChild>
-            <Pressable style={styles.weatherForecastMiniature}>
+          <Link href={`/details/${forecast.forecastDate}`} asChild>
+            <Pressable style={styles.weatherForecastMiniature} key={forecast.forecastDate}>
               <Text style={styles.temperature}>{forecast?.averageTemperature}°C</Text>
               <Image
                 style={styles.image}
