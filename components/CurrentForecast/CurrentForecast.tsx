@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
 import { CurrentForecast as CurrentForecastInterface } from "../../resources/weather/types";
+import { colors } from "../../styles/colors";
 
 interface CurrentForecastProps {
   currentForecast: CurrentForecastInterface | undefined;
@@ -27,23 +28,24 @@ export const CurrentForecast = ({ currentForecast }: CurrentForecastProps) => {
 const styles = StyleSheet.create({
   weatherForecast: {
     alignItems: "center",
-    width: "80%",
+    justifyContent: "space-around",
+    width: "90%",
     height: "30%",
-    backgroundColor: "gray",
+    backgroundColor: colors.gray.transparent,
     borderRadius: 5,
     marginTop: 15,
   },
   temperature: {
     fontSize: 30,
-    color: "white",
+    color: colors.white,
   },
   city: {
     fontSize: 24,
-    color: "white",
+    color: colors.white,
   },
   humidity: {
     fontSize: 24,
-    color: "white",
+    color: colors.white,
   },
   image: {
     height: 50,
