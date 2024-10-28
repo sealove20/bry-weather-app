@@ -18,6 +18,7 @@ export const NextForecast = ({ nextForecast }: NextForecastProps): JSX.Element =
           source={{ uri: `https:${nextForecast?.forecastIcon}` }}
           contentFit="cover"
           transition={500}
+          testID="forecast-image"
         />
       </View>
       <Text style={styles.humidity}>Umidade {nextForecast?.averageHumidity}%</Text>

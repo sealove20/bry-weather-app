@@ -18,6 +18,7 @@ export const CurrentForecast = ({ currentForecast }: CurrentForecastProps) => {
         contentFit="cover"
         transition={1000}
         alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
+        testID="forecast-image"
       />
       <Text style={styles.humidity}>Umidade {currentForecast?.humidity}%</Text>
     </View>
