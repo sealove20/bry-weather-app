@@ -153,3 +153,18 @@ export interface Hour {
   gust_kph: number;
   uv: number;
 }
+
+export interface AutocompleteResponse {
+  id: string;
+  name: string;
+  region: string;
+  country: string;
+  lat: number;
+  lon: number;
+  url: string;
+}
+
+export interface AutocompleList {
+  id: string;
+  name: string;
+}

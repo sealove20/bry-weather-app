@@ -1,4 +1,10 @@
-import { CurrentForecast, Forecast, ForecastDay, NextForecastList } from "./types";
+import {
+  AutocompleteResponse,
+  CurrentForecast,
+  Forecast,
+  ForecastDay,
+  NextForecastList,
+} from "./types";
 
 export const ForecastParser = {
   current: (forecast: Forecast): CurrentForecast => {
@@ -38,5 +44,12 @@ export const ForecastParser = {
     });
 
     return forecastDetail;
+  },
+  autocomplete: (autocompleteListNames: AutocompleteResponse[]) => {
+    const aucompleteNames = autocompleteListNames.map((location) => ({
+      name: location.name,
+      id: location.id,
+    }));
+    return aucompleteNames;
   },
 };

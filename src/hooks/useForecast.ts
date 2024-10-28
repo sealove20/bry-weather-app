@@ -1,17 +1,21 @@
 import { ForecastParser } from "@/resources/weather/parser";
 import {
+  AutocompleList,
+  AutocompleteResponse,
   CurrentForecast,
   Forecast,
   NextForecastList,
   UserCoordinates,
 } from "@/resources/weather/types";
-import { getByCityName, getByUserCoordinates } from "@/resources/weather/weather";
+import { getByCityName, getByUserCoordinates, getAutocomplete } from "@/resources/weather/weather";
 import { storeData } from "@/storage/asyncStorage";
 import { useState } from "react";
 
 export const useForecast = () => {
   const [nextForecasts, setNextForecasts] = useState<NextForecastList[]>([]);
   const [currentForecast, setCurrentForecast] = useState<CurrentForecast>();
+  const [autocompleteNames, setAutocompleteNames] = useState<AutocompleList[]>([]);
+
   const [loading, setLoading] = useState(false);
 
   const handleForecastResponse = async (response: Forecast) => {
@@ -55,11 +59,24 @@ export const useForecast = () => {
     }
   };
 
+  const fetchAutocompleteCityByName = async (searchedCity: string) => {
+    try {
+      const response = await getAutocomplete(searchedCity);
+      const autocompleteNamesList = ForecastParser.autocomplete(response);
+      setAutocompleteNames(autocompleteNamesList);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     nextForecasts,
     currentForecast,
+    autocompleteNames,
+    setAutocompleteNames,
     forecastLoading: loading,
     fetchForecastByUserCoordinates,
     fetchByCityName,
+    fetchAutocompleteCityByName,
   };
 };
