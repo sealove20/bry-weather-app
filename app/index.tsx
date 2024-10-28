@@ -16,6 +16,7 @@ import * as Location from "expo-location";
 import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
 import { colors } from "@/tokens/colors";
 import { NextForecast } from "@/components/NextForecast/NextForecast";
+import { CustomText } from "@/components/CustomText";
 
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();
@@ -80,7 +81,7 @@ export default function Main() {
         humidity={currentForecast?.humidity}
         temperature={currentForecast?.temperature}
       />
-      <Text style={styles.nextForecastTitle}>Próximos dias</Text>
+      <CustomText size="sm">Próximos dias</CustomText>
       <View style={styles.weatherForecastMiniatureContainer}>
         {nextForecasts?.map((forecast) => (
           <Link href={`/details/${forecast.forecastDate}`} asChild>

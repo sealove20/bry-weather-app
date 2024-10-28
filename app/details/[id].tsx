@@ -7,6 +7,7 @@ import { formatTime } from "@/commons/formatters/time";
 import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
 import { NextForecastList } from "@/resources/weather/types";
 import { colors } from "@/tokens/colors";
+import { CustomText } from "@/components/CustomText";
 
 export default function DetailsPage() {
   const { id } = useLocalSearchParams();
@@ -34,7 +35,7 @@ export default function DetailsPage() {
         horizontal
         renderItem={({ item }) => (
           <View style={styles.horizontal}>
-            <Text>{formatTime(item?.time)}</Text>
+            <CustomText size="sm">{formatTime(item?.time)}</CustomText>
             <Image
               style={styles.image}
               source={{ uri: `https:${item?.condition.icon}` }}
@@ -43,7 +44,7 @@ export default function DetailsPage() {
               alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
               testID="forecast-image"
             />
-            <Text>{item.temp_c}°C</Text>
+            <CustomText size="sm">{item.temp_c}°C</CustomText>
           </View>
         )}
         keyExtractor={(item) => item.time}

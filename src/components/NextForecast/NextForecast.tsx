@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { NextForecastList } from "@/resources/weather/types";
 import { formatDate } from "@/commons/formatters/date";
+import { CustomText } from "../CustomText";
 
 interface NextForecastProps {
   nextForecast?: NextForecastList;
@@ -11,7 +12,7 @@ export const NextForecast = ({ nextForecast }: NextForecastProps): JSX.Element =
   return (
     <>
       <View>
-        <Text style={styles.temperature}>{nextForecast?.averageTemperature}°C</Text>
+        <CustomText size="sm">{nextForecast?.averageTemperature}°C</CustomText>
         <Image
           style={styles.image}
           source={{ uri: `https:${nextForecast?.forecastIcon}` }}
@@ -21,8 +22,8 @@ export const NextForecast = ({ nextForecast }: NextForecastProps): JSX.Element =
           testID="forecast-image"
         />
       </View>
-      <Text style={styles.humidity}>Umidade {nextForecast?.averageHumidity}%</Text>
-      <Text style={styles.humidity}>{formatDate(nextForecast?.forecastDate!)}</Text>
+      <CustomText size="sm">Umidade {nextForecast?.averageHumidity}%</CustomText>
+      <CustomText size="sm">{formatDate(nextForecast?.forecastDate!)}</CustomText>
     </>
   );
 };
