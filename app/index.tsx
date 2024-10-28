@@ -8,14 +8,14 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useForecast } from "../hooks/useForecast";
+import { useForecast } from "@/hooks/useForecast";
 import { Image } from "expo-image";
-import { useLocation } from "../hooks/useLocation";
+import { useLocation } from "@/hooks/useLocation";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import { ForecastCard } from "../components/ForecastCard/ForecastCard";
-import { colors } from "../tokens/colors";
-import { NextForecast } from "../components/NextForecast/NextForecast";
+import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
+import { colors } from "@/tokens/colors";
+import { NextForecast } from "@/components/NextForecast/NextForecast";
 
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();

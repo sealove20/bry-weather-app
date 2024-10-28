@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react-native";
-import { fontSize as fontSizeTokens } from "../../tokens/fontSize";
-import CustomText from "./CustomText";
+import { fontSize as fontSizeTokens } from "@/tokens/fontSize";
+import { CustomText } from "./CustomText";
 
 describe("CustomText", () => {
   it("should renders correctly with the extra small size", () => {

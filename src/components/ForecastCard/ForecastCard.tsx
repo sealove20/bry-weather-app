@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import { colors } from "../../tokens/colors";
-import CustomText from "../Text/CustomText";
+import { CustomText } from "@/components/CustomText";
+import { colors } from "@/tokens/colors";
 
 interface ForecastCardProps {
   temperature?: number;

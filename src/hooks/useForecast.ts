@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { getByUserCoordinates, getByCityName } from "../resources/weather/weather";
-import { ForecastParser } from "../resources/weather/parser";
+import { ForecastParser } from "@/resources/weather/parser";
 import {
   CurrentForecast,
   Forecast,
   NextForecastList,
   UserCoordinates,
-} from "../resources/weather/types";
-import { storeData } from "../storage/asyncStorage";
+} from "@/resources/weather/types";
+import { getByCityName, getByUserCoordinates } from "@/resources/weather/weather";
+import { storeData } from "@/storage/asyncStorage";
+import { useState } from "react";
 
 export const useForecast = () => {
   const [nextForecasts, setNextForecasts] = useState<NextForecastList[]>([]);

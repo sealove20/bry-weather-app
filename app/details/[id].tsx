@@ -1,12 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
-import { getData } from "../../storage/asyncStorage";
+import { getData } from "@/storage/asyncStorage";
 import { useEffect, useState } from "react";
 import { Image } from "expo-image";
-import { formatTime } from "../../commons/formatters/time";
-import { ForecastCard } from "../../components/ForecastCard/ForecastCard";
-import { NextForecastList } from "../../resources/weather/types";
-import { colors } from "../../tokens/colors";
+import { formatTime } from "@/commons/formatters/time";
+import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
+import { NextForecastList } from "@/resources/weather/types";
+import { colors } from "@/tokens/colors";
 
 export default function DetailsPage() {
   const { id } = useLocalSearchParams();

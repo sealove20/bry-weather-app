@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react-native";
 import { ForecastCard } from "./ForecastCard";
-import { colors } from "../../tokens/colors";
+import { colors } from "@/tokens/colors";
 
 // workaround for getting expo image uri source https://github.com/expo/expo/issues/28831
 jest.mock("expo-image", () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react-native";
-import { NextForecastList } from "../../resources/weather/types";
 import { NextForecast } from "./NextForecast";
+import { NextForecastList } from "@/resources/weather/types";
 
 // workaround for getting expo image uri source https://github.com/expo/expo/issues/28831
 jest.mock("expo-image", () => {
