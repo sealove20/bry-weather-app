@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import { colors } from "../../styles/colors";
+import { colors } from "../../tokens/colors";
+import CustomText from "../Text/CustomText";
 
 interface ForecastCardProps {
   temperature?: number;
@@ -9,20 +10,35 @@ interface ForecastCardProps {
   forecastIcon?: string;
 }
 
-export const ForecastCard = ({ name, temperature, humidity, forecastIcon }: ForecastCardProps) => {
+export const ForecastCard = ({
+  name = "",
+  temperature = 0,
+  humidity = 0,
+  forecastIcon = "",
+}: ForecastCardProps) => {
+  const getBackgroundStyle = () => {
+    if (temperature < 15) return styles.coolBackground;
+    if (temperature >= 15 && temperature <= 25) return styles.warmBackground;
+    return styles.hotBackground;
+  };
   return (
-    <View style={styles.weatherForecast}>
-      <Text style={styles.city}>{name}</Text>
-      <Text style={styles.temperature}>{temperature}°C</Text>
-      <Image
-        style={styles.image}
-        source={{ uri: `https:${forecastIcon}` }}
-        contentFit="cover"
-        transition={1000}
-        alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
-        testID="forecast-image"
-      />
-      <Text style={styles.humidity}>Umidade {humidity}%</Text>
+    <View style={[styles.weatherForecast, getBackgroundStyle()]}>
+      <CustomText size="lg">{name}</CustomText>
+      <CustomText size="xl">{temperature}°C</CustomText>
+
+      {forecastIcon ? (
+        <Image
+          style={styles.image}
+          source={{ uri: `https:${forecastIcon}` }}
+          contentFit="cover"
+          transition={1000}
+          alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
+          testID="forecast-image"
+        />
+      ) : (
+        <CustomText size="sm">No Image Available</CustomText>
+      )}
+      <CustomText size="lg">Umidade {humidity}%</CustomText>
     </View>
   );
 };
@@ -33,21 +49,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "90%",
     height: 200,
-    backgroundColor: colors.gray.transparent,
     borderRadius: 5,
     marginTop: 15,
   },
-  temperature: {
-    fontSize: 30,
-    color: colors.white,
+  coolBackground: {
+    backgroundColor: colors.blue.dark,
   },
-  city: {
-    fontSize: 24,
-    color: colors.white,
+  warmBackground: {
+    backgroundColor: colors.yellow.dark,
   },
-  humidity: {
-    fontSize: 24,
-    color: colors.white,
+  hotBackground: {
+    backgroundColor: colors.red.dark,
+  },
+  placeholder: {
+    fontSize: 18,
+    color: colors.gray.transparent,
   },
   image: {
     height: 50,
