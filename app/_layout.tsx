@@ -2,7 +2,7 @@ import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "../styles/colors";
+import { colors } from "../tokens/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function DefaultLayout() {

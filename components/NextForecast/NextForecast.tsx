@@ -5,7 +5,7 @@ import { NextForecastList } from "../../resources/weather/types";
 import { formatDate } from "../../commons/formatters/date";
 
 interface NextForecastProps {
-  nextForecast: NextForecastList | undefined;
+  nextForecast?: NextForecastList;
 }
 
 export const NextForecast = ({ nextForecast }: NextForecastProps): JSX.Element => {
@@ -18,6 +18,7 @@ export const NextForecast = ({ nextForecast }: NextForecastProps): JSX.Element =
           source={{ uri: `https:${nextForecast?.forecastIcon}` }}
           contentFit="cover"
           transition={500}
+          alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
           testID="forecast-image"
         />
       </View>

@@ -6,6 +6,7 @@ import { Image } from "expo-image";
 import { formatTime } from "../../commons/formatters/time";
 import { ForecastCard } from "../../components/ForecastCard/ForecastCard";
 import { NextForecastList } from "../../resources/weather/types";
+import { colors } from "../../tokens/colors";
 
 export default function DetailsPage() {
   const { id } = useLocalSearchParams();
@@ -54,7 +55,7 @@ export default function DetailsPage() {
 const styles = StyleSheet.create({
   horizontal: {
     margin: 10,
-    backgroundColor: "gray",
+    backgroundColor: colors.gray.transparent,
     padding: 15,
     borderRadius: 15,
     height: 120,

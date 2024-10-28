@@ -14,7 +14,7 @@ import { useLocation } from "../hooks/useLocation";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { ForecastCard } from "../components/ForecastCard/ForecastCard";
-import { colors } from "../styles/colors";
+import { colors } from "../tokens/colors";
 import { NextForecast } from "../components/NextForecast/NextForecast";
 
 export default function Main() {
