@@ -94,11 +94,6 @@ export default function Main() {
 }
 
 const styles = StyleSheet.create({
-  safeAreStyle: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
   loadingContainer: {
     flex: 1,
     alignItems: "center",
@@ -106,7 +101,7 @@ const styles = StyleSheet.create({
   },
   weatherForecast: {
     alignItems: "center",
-    width: "80%",
+    width: "90%",
     height: "30%",
     backgroundColor: "gray",
     borderRadius: 5,
@@ -149,5 +144,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 15,
+    backgroundColor: "#fff",
   },
 });
