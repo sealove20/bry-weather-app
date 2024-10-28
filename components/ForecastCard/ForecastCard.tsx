@@ -1,26 +1,28 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import { CurrentForecast as CurrentForecastInterface } from "../../resources/weather/types";
 import { colors } from "../../styles/colors";
 
-interface CurrentForecastProps {
-  currentForecast: CurrentForecastInterface | undefined;
+interface ForecastCardProps {
+  temperature?: number;
+  humidity?: number;
+  name?: string;
+  forecastIcon?: string;
 }
 
-export const CurrentForecast = ({ currentForecast }: CurrentForecastProps) => {
+export const ForecastCard = ({ name, temperature, humidity, forecastIcon }: ForecastCardProps) => {
   return (
     <View style={styles.weatherForecast}>
-      <Text style={styles.city}>{currentForecast?.name}</Text>
-      <Text style={styles.temperature}>{currentForecast?.temperature}°C</Text>
+      <Text style={styles.city}>{name}</Text>
+      <Text style={styles.temperature}>{temperature}°C</Text>
       <Image
         style={styles.image}
-        source={{ uri: `https:${currentForecast?.forecastIcon}` }}
+        source={{ uri: `https:${forecastIcon}` }}
         contentFit="cover"
         transition={1000}
         alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
         testID="forecast-image"
       />
-      <Text style={styles.humidity}>Umidade {currentForecast?.humidity}%</Text>
+      <Text style={styles.humidity}>Umidade {humidity}%</Text>
     </View>
   );
 };
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: "90%",
-    height: "30%",
+    height: 200,
     backgroundColor: colors.gray.transparent,
     borderRadius: 5,
     marginTop: 15,

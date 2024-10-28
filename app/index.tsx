@@ -13,7 +13,7 @@ import { Image } from "expo-image";
 import { useLocation } from "../hooks/useLocation";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import { CurrentForecast } from "../components/CurrentForecast/CurrentForecast";
+import { ForecastCard } from "../components/ForecastCard/ForecastCard";
 import { colors } from "../styles/colors";
 import { NextForecast } from "../components/NextForecast/NextForecast";
 
@@ -50,7 +50,9 @@ export default function Main() {
   };
 
   useEffect(() => {
-    loadCurrentLocationWeather();
+    if (!currentForecast) {
+      loadCurrentLocationWeather();
+    }
   }, []);
 
   if (locationLoading || forecastLoading) {
@@ -72,7 +74,12 @@ export default function Main() {
         />
         <Button title="Buscar previsão" onPress={() => fetchByCityName(text)} />
       </View>
-      <CurrentForecast currentForecast={currentForecast} />
+      <ForecastCard
+        name={currentForecast?.name}
+        forecastIcon={currentForecast?.forecastIcon}
+        humidity={currentForecast?.humidity}
+        temperature={currentForecast?.temperature}
+      />
       <Text style={styles.nextForecastTitle}>Próximos dias</Text>
       <View style={styles.weatherForecastMiniatureContainer}>
         {nextForecasts?.map((forecast) => (

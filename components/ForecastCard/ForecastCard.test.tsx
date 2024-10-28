@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react-native";
-import { CurrentForecast } from "./CurrentForecast";
+import { ForecastCard } from "./ForecastCard";
 
 // workaround for getting expo image uri source https://github.com/expo/expo/issues/28831
 jest.mock("expo-image", () => {
@@ -9,7 +9,7 @@ jest.mock("expo-image", () => {
   return { ...actualExpoImage, Image };
 });
 
-describe("CurrentForecast", () => {
+describe("ForecastCard", () => {
   it("renders correctly with data", () => {
     const mockForecast = {
       name: "London",
@@ -18,7 +18,14 @@ describe("CurrentForecast", () => {
       humidity: 70,
     };
 
-    render(<CurrentForecast currentForecast={mockForecast} />);
+    render(
+      <ForecastCard
+        name={mockForecast.name}
+        forecastIcon={mockForecast.forecastIcon}
+        humidity={mockForecast.humidity}
+        temperature={mockForecast.temperature}
+      />,
+    );
 
     expect(screen.getByText("London")).toBeTruthy();
     expect(screen.getByText(`${mockForecast.temperature}°C`)).toBeTruthy();
