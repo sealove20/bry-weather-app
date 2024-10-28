@@ -20,7 +20,7 @@ export default function Main() {
   const {
     nextForecasts,
     currentForecast,
-    loading,
+    forecastLoading,
     fetchForecastByUserCoordinates,
     fetchByCityName,
   } = useForecast();
@@ -51,7 +51,7 @@ export default function Main() {
     loadCurrentLocationWeather();
   }, []);
 
-  if (locationLoading || loading) {
+  if (locationLoading || forecastLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator animating={true} size="large" color={"red"} />

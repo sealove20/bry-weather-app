@@ -51,7 +51,7 @@ export const useForecast = () => {
   return {
     nextForecasts,
     currentForecast,
-    loading,
+    forecastLoading: loading,
     fetchForecastByUserCoordinates,
     fetchByCityName,
   };
