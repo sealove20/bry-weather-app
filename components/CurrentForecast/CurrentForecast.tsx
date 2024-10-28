@@ -1,5 +1,5 @@
-import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { CurrentForecast as CurrentForecastInterface } from "../../resources/weather/types";
 import { colors } from "../../styles/colors";
 
@@ -18,7 +18,6 @@ export const CurrentForecast = ({ currentForecast }: CurrentForecastProps) => {
         contentFit="cover"
         transition={1000}
         alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
-        testID="weather-icon"
       />
       <Text style={styles.humidity}>Umidade {currentForecast?.humidity}%</Text>
     </View>

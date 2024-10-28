@@ -14,6 +14,8 @@ import { useLocation } from "../hooks/useLocation";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { CurrentForecast } from "../components/CurrentForecast/CurrentForecast";
+import { colors } from "../styles/colors";
+import { NextForecast } from "../components/NextForecast/NextForecast";
 
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();
@@ -71,20 +73,12 @@ export default function Main() {
         <Button title="Buscar previsão" onPress={() => fetchByCityName(text)} />
       </View>
       <CurrentForecast currentForecast={currentForecast} />
-      <Text>Próximos dias</Text>
+      <Text style={styles.nextForecastTitle}>Próximos dias</Text>
       <View style={styles.weatherForecastMiniatureContainer}>
         {nextForecasts?.map((forecast) => (
           <Link href={`/details/${forecast.forecastDate}`} asChild>
-            <Pressable style={styles.weatherForecastMiniature} key={forecast.forecastDate}>
-              <Text style={styles.temperature}>{forecast?.averageTemperature}°C</Text>
-              <Image
-                style={styles.image}
-                source={{ uri: `https:${forecast?.forecastIcon}` }}
-                contentFit="cover"
-                transition={500}
-              />
-              <Text style={styles.humidity}>Umidade {forecast?.averageHumidity}%</Text>
-              <Text style={styles.humidity}>{forecast?.forecastDate}</Text>
+            <Pressable style={styles.weatherForecastMiniature}>
+              <NextForecast nextForecast={forecast} key={forecast.forecastDate} />
             </Pressable>
           </Link>
         ))}
@@ -120,14 +114,18 @@ const styles = StyleSheet.create({
     color: "white",
   },
   weatherForecastMiniature: {
+    flexDirection: "row",
     alignItems: "center",
-    width: 200,
-    height: 200,
-    backgroundColor: "gray",
+    justifyContent: "space-around",
+    width: "100%",
+    height: 100,
+    backgroundColor: colors.gray.transparent,
     borderRadius: 5,
     marginTop: 15,
   },
   weatherForecastMiniatureContainer: {
+    alignItems: "center",
+    width: "90%",
     gap: 15,
   },
   image: {
@@ -145,5 +143,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 15,
     backgroundColor: "#fff",
+  },
+  nextForecastTitle: {
+    fontSize: 18,
+    color: colors.white,
+    marginTop: 15,
   },
 });
