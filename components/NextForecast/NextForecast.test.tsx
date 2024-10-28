@@ -12,6 +12,7 @@ jest.mock("expo-image", () => {
 });
 
 const mockForecast: NextForecastList = {
+  forecastLocationName: "London",
   averageTemperature: 25,
   averageHumidity: 60,
   forecastIcon: "/cdn.weatherapi.com/weather/64x64/day/113.png",
@@ -20,7 +21,7 @@ const mockForecast: NextForecastList = {
 };
 
 describe("NextForecast Component", () => {
-  it("renders correctly with data", () => {
+  it("should renders correctly with data", () => {
     render(<NextForecast nextForecast={mockForecast} />);
 
     expect(screen.getByText("25°C")).toBeTruthy();

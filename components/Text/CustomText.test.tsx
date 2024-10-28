@@ -3,7 +3,7 @@ import { fontSize as fontSizeTokens } from "../../tokens/fontSize";
 import CustomText from "./CustomText";
 
 describe("CustomText", () => {
-  it("renders correctly with the extra small size", () => {
+  it("should renders correctly with the extra small size", () => {
     render(<CustomText size="xsm">Extra Small Text</CustomText>);
     const textElement = screen.getByText("Extra Small Text");
 
@@ -11,7 +11,7 @@ describe("CustomText", () => {
     expect(textElement.props.style[1].fontSize).toBe(fontSizeTokens.xsm);
   });
 
-  it("renders correctly with the small size", () => {
+  it("should renders correctly with the small size", () => {
     render(<CustomText size="sm">Small Text</CustomText>);
     const textElement = screen.getByText("Small Text");
 
@@ -19,7 +19,7 @@ describe("CustomText", () => {
     expect(textElement.props.style[1].fontSize).toBe(fontSizeTokens.sm);
   });
 
-  it("renders correctly with the medium size", () => {
+  it("should renders correctly with the medium size", () => {
     render(<CustomText size="md">Medium Text</CustomText>);
     const textElement = screen.getByText("Medium Text");
 
@@ -27,7 +27,7 @@ describe("CustomText", () => {
     expect(textElement.props.style[1].fontSize).toBe(fontSizeTokens.md);
   });
 
-  it("renders correctly with the large size", () => {
+  it("should renders correctly with the large size", () => {
     render(<CustomText size="lg">Large Text</CustomText>);
     const textElement = screen.getByText("Large Text");
 
@@ -35,7 +35,7 @@ describe("CustomText", () => {
     expect(textElement.props.style[1].fontSize).toBe(fontSizeTokens.lg);
   });
 
-  it("renders correctly with the extra large size", () => {
+  it("should renders correctly with the extra large size", () => {
     render(<CustomText size="xl">Extra Large Text</CustomText>);
     const textElement = screen.getByText("Extra Large Text");
 
