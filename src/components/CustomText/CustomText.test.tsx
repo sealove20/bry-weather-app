@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react-native";
 import { fontSize as fontSizeTokens } from "@/tokens/fontSize";
 import { CustomText } from "./CustomText";
+import { StyleSheet } from "react-native";
 
 describe("CustomText", () => {
   it("should renders correctly with the extra small size", () => {
@@ -41,5 +42,20 @@ describe("CustomText", () => {
 
     expect(textElement).toBeTruthy();
     expect(textElement.props.style[1].fontSize).toBe(fontSizeTokens.xl);
+  });
+
+  it("should applies custom styles correctly", () => {
+    const customStyle = StyleSheet.create({
+      textStyle: { fontWeight: "bold", textAlign: "center" },
+    });
+    const { getByText } = render(
+      <CustomText size="lg" style={customStyle.textStyle}>
+        Test Text
+      </CustomText>,
+    );
+
+    const textElement = getByText("Test Text");
+    expect(textElement.props.style[2].fontWeight).toBe(customStyle.textStyle.fontWeight);
+    expect(textElement.props.style[2].textAlign).toBe(customStyle.textStyle.textAlign);
   });
 });
