@@ -35,7 +35,7 @@ export default function DetailsPage() {
         horizontal
         renderItem={({ item }) => (
           <View style={styles.horizontal}>
-            <CustomText size="sm">{formatTime(item?.time)}</CustomText>
+            <CustomText size="xsm">{formatTime(item?.time)}</CustomText>
             <Image
               style={styles.image}
               source={{ uri: `https:${item?.condition.icon}` }}
@@ -44,7 +44,7 @@ export default function DetailsPage() {
               alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
               testID="forecast-image"
             />
-            <CustomText size="sm">{item.temp_c}°C</CustomText>
+            <CustomText size="xsm">{Math.floor(item.temp_c)}°C</CustomText>
           </View>
         )}
         keyExtractor={(item) => item.time}
@@ -55,6 +55,7 @@ export default function DetailsPage() {
 
 const styles = StyleSheet.create({
   horizontal: {
+    alignItems: "center",
     margin: 10,
     backgroundColor: colors.gray.transparent,
     padding: 15,
