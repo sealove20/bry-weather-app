@@ -81,7 +81,9 @@ export default function Main() {
         humidity={currentForecast?.humidity}
         temperature={currentForecast?.temperature}
       />
-      <CustomText size="sm">Próximos dias</CustomText>
+      <CustomText size="sm" style={styles.nextForecastTitle}>
+        Próximos dias
+      </CustomText>
       <View style={styles.weatherForecastMiniatureContainer}>
         {nextForecasts?.map((forecast) => (
           <Link href={`/details/${forecast.forecastDate}`} asChild>
@@ -153,8 +155,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   nextForecastTitle: {
-    fontSize: 18,
-    color: colors.white,
     marginTop: 15,
   },
 });
