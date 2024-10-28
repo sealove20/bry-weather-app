@@ -1,10 +1,7 @@
 import { Link } from "expo-router";
 import {
   ActivityIndicator,
-  Alert,
   Button,
-  Linking,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -14,8 +11,9 @@ import {
 import { useForecast } from "../hooks/useForecast";
 import { Image } from "expo-image";
 import { useLocation } from "../hooks/useLocation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Location from "expo-location";
+import { CurrentForecast } from "../components/CurrentForecast/CurrentForecast";
 
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();
@@ -72,17 +70,7 @@ export default function Main() {
         />
         <Button title="Buscar previsão" onPress={() => fetchByCityName(text)} />
       </View>
-      <View style={styles.weatherForecast}>
-        <Text style={styles.city}>{currentForecast?.name}</Text>
-        <Text style={styles.temperature}>{currentForecast?.temperature}°C</Text>
-        <Image
-          style={styles.image}
-          source={{ uri: `https:${currentForecast?.forecastIcon}` }}
-          contentFit="cover"
-          transition={1000}
-        />
-        <Text style={styles.humidity}>Umidade {currentForecast?.humidity}%</Text>
-      </View>
+      <CurrentForecast currentForecast={currentForecast} />
       <Text>Próximos dias</Text>
       <View style={styles.weatherForecastMiniatureContainer}>
         {nextForecasts?.map((forecast) => (
