@@ -22,7 +22,7 @@ export const ForecastCard = ({
     return styles.hotBackground;
   };
   return (
-    <View style={[styles.weatherForecast, getBackgroundStyle()]}>
+    <View style={[styles.weatherForecast, getBackgroundStyle()]} testID="forecastCard">
       <CustomText size="lg">{name}</CustomText>
       <CustomText size="xl">{temperature}°C</CustomText>
 
