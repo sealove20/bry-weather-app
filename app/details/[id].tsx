@@ -1,12 +1,15 @@
 import { useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { getData } from "../../storage/asyncStorage";
 import { useEffect, useState } from "react";
 import { Image } from "expo-image";
+import { formatTime } from "../../commons/formatters/time";
+import { ForecastCard } from "../../components/ForecastCard/ForecastCard";
+import { NextForecastList } from "../../resources/weather/types";
 
 export default function DetailsPage() {
   const { id } = useLocalSearchParams();
-  const [forecastDetails, setForecastDetails] = useState();
+  const [forecastDetails, setForecastDetails] = useState<NextForecastList>();
 
   const getDetails = async () => {
     const storageDetails = await getData(id as string);
@@ -18,21 +21,44 @@ export default function DetailsPage() {
   }, []);
 
   return (
-    <View style={styles.weatherForecast}>
-      {/* <Text style={styles.city}>{forecastDetails?.forecastLocationName}</Text> */}
-      <Text style={styles.temperature}>{forecastDetails?.averageTemperature}°C</Text>
-      <Image
-        style={styles.image}
-        source={{ uri: `https:${forecastDetails?.forecastIcon}` }}
-        contentFit="cover"
-        transition={1000}
+    <>
+      <ForecastCard
+        name={forecastDetails?.forecastLocationName}
+        forecastIcon={forecastDetails?.forecastIcon}
+        humidity={forecastDetails?.averageHumidity}
+        temperature={forecastDetails?.averageTemperature}
       />
-      <Text style={styles.humidity}>Umidade {forecastDetails?.averageHumidity}%</Text>
-    </View>
+      <FlatList
+        data={forecastDetails?.hourlyForecast}
+        horizontal
+        renderItem={({ item }) => (
+          <View style={styles.horizontal}>
+            <Text>{formatTime(item?.time)}</Text>
+            <Image
+              style={styles.image}
+              source={{ uri: `https:${item?.condition.icon}` }}
+              contentFit="cover"
+              transition={1000}
+              alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
+              testID="forecast-image"
+            />
+            <Text>{item.temp_c}°C</Text>
+          </View>
+        )}
+        keyExtractor={(item) => item.time}
+      />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  horizontal: {
+    margin: 10,
+    backgroundColor: "gray",
+    padding: 15,
+    borderRadius: 15,
+    height: 120,
+  },
   safeAreStyle: {
     flex: 1,
     backgroundColor: "#fff",
@@ -45,7 +71,7 @@ const styles = StyleSheet.create({
   },
   weatherForecast: {
     alignItems: "center",
-    width: "80%",
+    width: "90%",
     height: "30%",
     backgroundColor: "gray",
     borderRadius: 5,

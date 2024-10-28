@@ -1,45 +1,52 @@
 export interface Forecast {
-  name: string;
-  region: string;
-  country: string;
-  lat: number;
-  lon: number;
-  tz_id: string;
-  localtime_epoch: number;
-  localtime: string;
-  last_updated_epoch: number;
-  last_updated: string;
-  temp_c: number;
-  temp_f: number;
-  is_day: 0 | 1; // 0 for night, 1 for day
-  condition: {
-    text: string;
-    icon: string;
-    code: number;
+  location: {
+    name: string;
+    region: string;
+    country: string;
+    lat: number;
+    lon: number;
+    tz_id: string;
+    localtime_epoch: number;
+    localtime: string;
   };
-  wind_mph: number;
-  wind_kph: number;
-  wind_degree: number;
-  wind_dir: string;
-  pressure_mb: number;
-  pressure_in: number;
-  precip_mm: number;
-  precip_in: number;
-  humidity: number;
-  cloud: number;
-  feelslike_c: number;
-  feelslike_f: number;
-  windchill_c: number;
-  windchill_f: number;
-  heatindex_c: number;
-  heatindex_f: number;
-  dewpoint_c: number;
-  dewpoint_f: number;
-  vis_km: number;
-  vis_miles: number;
-  uv: number;
-  gust_mph: number;
-  gust_kph: number;
+  current: {
+    last_updated_epoch: number;
+    last_updated: string;
+    temp_c: number;
+    temp_f: number;
+    is_day: 0 | 1; // 0 for night, 1 for day
+    condition: {
+      text: string;
+      icon: string;
+      code: number;
+    };
+    wind_mph: number;
+    wind_kph: number;
+    wind_degree: number;
+    wind_dir: string;
+    pressure_mb: number;
+    pressure_in: number;
+    precip_mm: number;
+    precip_in: number;
+    humidity: number;
+    cloud: number;
+    feelslike_c: number;
+    feelslike_f: number;
+    windchill_c: number;
+    windchill_f: number;
+    heatindex_c: number;
+    heatindex_f: number;
+    dewpoint_c: number;
+    dewpoint_f: number;
+    vis_km: number;
+    vis_miles: number;
+    uv: number;
+    gust_mph: number;
+    gust_kph: number;
+  };
+  forecast: {
+    forecastday: ForecastDay[];
+  };
 }
 
 export interface CurrentForecast {
@@ -50,6 +57,7 @@ export interface CurrentForecast {
 }
 
 export interface NextForecastList {
+  forecastLocationName: string;
   forecastDate: string;
   averageTemperature: number;
   averageHumidity: number;
@@ -62,8 +70,7 @@ export interface UserCoordinates {
   longitude: number;
 }
 
-export interface NextForecast {
-  name: string;
+export interface ForecastDay {
   date: string;
   date_epoch: number;
   day: {
@@ -103,7 +110,7 @@ export interface NextForecast {
     is_sun_up: 0 | 1; // 0 for night, 1 for day
   };
 
-  hour: Hour[]; // Array of hourly forecast data
+  hour: Hour[];
 }
 
 export interface Hour {
@@ -130,10 +137,10 @@ export interface Hour {
   cloud: number;
   feelslike_c: number;
   feelslike_f: number;
-  windchill_c?: number; // Optional property
-  windchill_f?: number; // Optional property
-  heatindex_c?: number; // Optional property
-  heatindex_f?: number; // Optional property
+  windchill_c: number;
+  windchill_f: number;
+  heatindex_c: number;
+  heatindex_f: number;
   dewpoint_c: number;
   dewpoint_f: number;
   will_it_rain: 0 | 1; // 0 for no rain, 1 for rain
