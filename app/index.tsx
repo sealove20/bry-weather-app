@@ -17,6 +17,7 @@ import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
 import { colors } from "@/tokens/colors";
 import { NextForecast } from "@/components/NextForecast/NextForecast";
 import { CustomText } from "@/components/CustomText";
+import { useForecastContext } from "@/store/searchedCity";
 
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();
@@ -29,6 +30,7 @@ export default function Main() {
   } = useForecast();
   const [locationLoading, setLocationLoading] = useState(false);
   const [text, onChangeText] = useState("");
+  const { searchedCity, setSearchedCity } = useForecastContext();
 
   const loadCurrentLocationWeather = async () => {
     setLocationLoading(true);
@@ -51,8 +53,10 @@ export default function Main() {
   };
 
   useEffect(() => {
-    if (!currentForecast) {
+    if (!searchedCity) {
       loadCurrentLocationWeather();
+    } else {
+      fetchByCityName(searchedCity);
     }
   }, []);
 
@@ -69,11 +73,11 @@ export default function Main() {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={setSearchedCity}
+          value={searchedCity}
           placeholder="Florianópolis"
         />
-        <Button title="Buscar previsão" onPress={() => fetchByCityName(text)} />
+        <Button title="Buscar previsão" onPress={() => fetchByCityName(searchedCity)} />
       </View>
       <ForecastCard
         name={currentForecast?.name}

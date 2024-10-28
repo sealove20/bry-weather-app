@@ -17,7 +17,11 @@ export const useForecast = () => {
   const handleForecastResponse = async (response: Forecast) => {
     const forecast = ForecastParser.current(response);
     const nextForecastsList = ForecastParser.nextForecastsList(response);
+    const forecastDetails = ForecastParser.forecastDetail(nextForecastsList);
 
+    for (let forecast of nextForecastsList) {
+      storeData(forecast.forecastDate, forecastDetails[forecast.forecastDate]);
+    }
     setCurrentForecast(forecast);
     setNextForecasts(nextForecastsList);
 
@@ -28,12 +32,7 @@ export const useForecast = () => {
     setLoading(true);
     try {
       const response = await getByUserCoordinates(userCoordinates);
-      const nextForecastsList = await handleForecastResponse(response);
-      const forecastDetails = ForecastParser.forecastDetail(nextForecastsList);
-
-      for (let forecast of nextForecastsList) {
-        storeData(forecast.forecastDate, forecastDetails[forecast.forecastDate]);
-      }
+      await handleForecastResponse(response);
     } catch (error) {
       console.error(error);
     } finally {
@@ -42,6 +41,9 @@ export const useForecast = () => {
   };
 
   const fetchByCityName = async (cityName: string) => {
+    if (!cityName) {
+      return;
+    }
     setLoading(true);
     try {
       const response = await getByCityName(cityName);

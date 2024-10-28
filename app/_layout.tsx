@@ -4,15 +4,18 @@ import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/tokens/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { ForecastProvider } from "@/store/searchedCity";
 
 export default function DefaultLayout() {
   return (
     <>
-      <SafeAreaView style={styles.safeAreStyle}>
-        <LinearGradient colors={[colors.blue.dark, "transparent"]} style={styles.background} />
-        <Slot />
-        <StatusBar style="auto" translucent />
-      </SafeAreaView>
+      <ForecastProvider>
+        <SafeAreaView style={styles.safeAreStyle}>
+          <LinearGradient colors={[colors.blue.dark, "transparent"]} style={styles.background} />
+          <Slot />
+          <StatusBar style="auto" translucent />
+        </SafeAreaView>
+      </ForecastProvider>
     </>
   );
 }
