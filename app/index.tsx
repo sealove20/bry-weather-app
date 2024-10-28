@@ -22,6 +22,7 @@ import { CustomText } from "@/components/CustomText";
 import { useForecastContext } from "@/store/searchedCity";
 import { Loading } from "@/components/Loading/Loading";
 import { debounce } from "@/hooks/useDebounce";
+import { Autocomplete } from "@/components/Autocomplete";
 export default function Main() {
   const { latitude, longitude, askForPermission } = useLocation();
   const {
@@ -66,14 +67,16 @@ export default function Main() {
 
   const onChangeText = (text: string) => {
     setSearchedCity(text);
-    debouncedSearch(text);
+    if (text) {
+      debouncedSearch(text);
+    }
   };
 
-  const onClickInSearchedCity = (cityName: string) => {
+  const onClickInSearchedCity = useCallback((cityName: string) => {
     setSearchedCity(cityName);
     fetchByCityName(cityName);
     setAutocompleteNames([]);
-  };
+  }, []);
 
   useEffect(() => {
     if (!searchedCity) {
@@ -97,14 +100,9 @@ export default function Main() {
           placeholder="Nome da cidade"
         />
         {autocompleteNames.length > 0 && (
-          <FlatList
-            data={autocompleteNames}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => onClickInSearchedCity(item.name)}>
-                <Text style={styles.suggestion}>{item.name}</Text>
-              </TouchableOpacity>
-            )}
+          <Autocomplete
+            autocompleteNames={autocompleteNames}
+            onClickInSearchedCity={onClickInSearchedCity}
           />
         )}
       </View>
