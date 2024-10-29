@@ -167,4 +167,5 @@ export interface AutocompleteResponse {
 export interface AutocompleList {
   id: string;
   name: string;
+  region: string;
 }

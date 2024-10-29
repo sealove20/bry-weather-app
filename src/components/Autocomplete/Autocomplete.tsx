@@ -13,7 +13,9 @@ export const Autocomplete = ({ autocompleteNames, onClickInSearchedCity }: Autoc
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => onClickInSearchedCity(item.name)}>
-          <Text style={styles.suggestion}>{item.name}</Text>
+          <Text style={styles.suggestion}>
+            {item.name} - {item.region}
+          </Text>
         </TouchableOpacity>
       )}
     />
