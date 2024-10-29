@@ -7,7 +7,7 @@ import {
   UserCoordinates,
 } from "@/resources/weather/types";
 import { getByCityName, getByUserCoordinates, getAutocomplete } from "@/resources/weather/weather";
-import { storeData } from "@/hooks/useAsyncStorage";
+import { storeData } from "@/hooks/useAsyncStorage/useAsyncStorage";
 import { useCallback, useState } from "react";
 
 export interface UseForecastState {

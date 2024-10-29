@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
-import { debounce } from "@/hooks/useDebounce";
-import { UseForecastState } from "./useForecast/useForecast";
+import { debounce } from "@/hooks/useDebounce/useDebounce";
+import { UseForecastState } from "../useForecast/useForecast";
 
 interface UseSearchHandlersProps {
   setForecastState: Dispatch<SetStateAction<UseForecastState>>;

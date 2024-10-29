@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useForecast } from "./useForecast";
 import { getByCityName, getByUserCoordinates, getAutocomplete } from "@/resources/weather/weather";
-import { storeData } from "@/hooks/useAsyncStorage";
+import { storeData } from "@/hooks/useAsyncStorage/useAsyncStorage";
 import { mockForecastResponse, mockNextForecastResponse } from "./useForecast.mock";
 
 jest.mock("@/resources/weather/weather", () => ({
@@ -15,7 +15,13 @@ jest.mock("@/hooks/useAsyncStorage", () => ({
 }));
 
 describe("useForecast", () => {
-  mockForecastResponse;
+  beforeAll(() => {
+    jest.spyOn(console, "warn").mockImplementation((message) => {
+      if (!message.includes("ProgressBarAndroid has been extracted")) {
+        console.warn(message);
+      }
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();

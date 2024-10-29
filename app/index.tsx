@@ -1,13 +1,13 @@
 import { useForecast } from "@/hooks/useForecast/useForecast";
-import { useLocation } from "@/hooks/useLocation";
 import { useEffect, useState, useCallback } from "react";
 import * as Location from "expo-location";
 import { useForecastContext } from "@/store/searchedCity";
 import { Loading } from "@/components/Loading";
 import { LocationPermission } from "@/components/LocationPermission/LocationPermission";
 import { Weather } from "@/components/Weather/Weather";
-import { useAppStateHandler } from "@/hooks/useAppStateHandler";
-import { useSearchHandlers } from "@/hooks/useSearchHandlers";
+import { useAppStateHandler } from "@/hooks/useAppStateHandler/useAppStateHandler";
+import { useSearchHandlers } from "@/hooks/useSearchHandlers/useSearchHandlers";
+import { useLocation } from "@/hooks/useLocation/useLocation";
 
 export default function Main() {
   const { loadCurrentLocationWeather, locationPermission, checkLocationPermission, goToSettings } =
