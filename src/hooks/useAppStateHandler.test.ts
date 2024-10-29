@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { AppState } from "react-native";
 import * as Location from "expo-location";
-import { useAppStateHandler } from "./useAppStateHandler"; // Adjust the path if needed
+import { useAppStateHandler } from "./useAppStateHandler";
 
 jest.mock("react-native", () => ({
   AppState: {

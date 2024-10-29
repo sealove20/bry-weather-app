@@ -8,6 +8,8 @@ import { debounce } from "@/hooks/useDebounce";
 import { LocationPermission } from "@/components/LocationPermission/LocationPermission";
 import { Weather } from "@/components/Weather/Weather";
 import { useAppStateHandler } from "@/hooks/useAppStateHandler";
+import { useSearchHandlers } from "@/hooks/useSearchHandlers";
+
 export default function Main() {
   const { loadCurrentLocationWeather, locationPermission, checkLocationPermission, goToSettings } =
     useLocation();
@@ -25,37 +27,21 @@ export default function Main() {
 
   const { searchedCity, setSearchedCity } = useForecastContext();
 
-  const debouncedSearch = useCallback(
-    debounce((query: string) => {
-      fetchAutocompleteCityByName(query);
-    }, 500),
-    [],
-  );
+  const { onChangeText, onClickInSearchedCity } = useSearchHandlers({
+    setAutocompleteNames,
+    fetchAutocompleteCityByName,
+    setSearchedCity,
+    fetchByCityName,
+  });
 
-  const onChangeText = useCallback(
-    (text: string) => {
-      setSearchedCity(text);
-      if (text) {
-        debouncedSearch(text);
-      }
-    },
-    [setSearchedCity],
-  );
-
-  const onClickInSearchedCity = useCallback((cityName: string) => {
-    setSearchedCity(cityName);
-    fetchByCityName(cityName);
-    setAutocompleteNames([]);
-  }, []);
-
-  const initialLoad = () => {
+  const initialLoad = useCallback(() => {
     checkLocationPermission();
     if (!searchedCity) {
       loadCurrentLocationWeather(fetchForecastByUserCoordinates);
     } else {
       fetchByCityName(searchedCity);
     }
-  };
+  }, [searchedCity]);
 
   useAppStateHandler({ initialLoad });
 
@@ -67,22 +53,18 @@ export default function Main() {
     return <Loading />;
   }
 
+  if (locationPermission !== Location.PermissionStatus.GRANTED) {
+    return <LocationPermission goToSettings={goToSettings} />;
+  }
+
   return (
-    <>
-      {locationPermission !== Location.PermissionStatus.GRANTED ? (
-        <LocationPermission goToSettings={goToSettings} />
-      ) : (
-        <>
-          <Weather
-            autocompleteNames={autocompleteNames}
-            currentForecast={currentForecast}
-            nextForecasts={nextForecasts}
-            onChangeText={onChangeText}
-            onClickInSearchedCity={onClickInSearchedCity}
-            searchedCity={searchedCity}
-          />
-        </>
-      )}
-    </>
+    <Weather
+      autocompleteNames={autocompleteNames}
+      currentForecast={currentForecast}
+      nextForecasts={nextForecasts}
+      onChangeText={onChangeText}
+      onClickInSearchedCity={onClickInSearchedCity}
+      searchedCity={searchedCity}
+    />
   );
 }

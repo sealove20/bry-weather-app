@@ -17,7 +17,6 @@ export const ForecastProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   );
 };
 
-// Custom hook for easy access
 export const useForecastContext = (): ForecastContextProps => {
   const context = useContext(ForecastContext);
   if (!context) {
