@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react-native";
 import { NextForecast } from "./NextForecast";
 import { NextForecastList } from "@/resources/weather/types";
