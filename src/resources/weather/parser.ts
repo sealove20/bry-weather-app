@@ -8,24 +8,26 @@ import {
 
 export const ForecastParser = {
   current: (forecast: Forecast): CurrentForecast => {
-    const { current, location } = forecast;
+    const { temp_c, humidity, condition } = forecast.current;
+    const { name } = forecast.location;
 
     return {
-      temperature: Math.floor(current.temp_c),
-      humidity: current.humidity,
-      name: location.name,
-      forecastIcon: current.condition.icon,
+      temperature: Math.floor(temp_c),
+      humidity: humidity,
+      name: name,
+      forecastIcon: condition.icon,
     };
   },
-  nextForecastsList: (forecast: Forecast) => {
+  nextForecastsList: (forecast: Forecast): NextForecastList[] => {
     const forecastLocationName = forecast.location.name;
 
-    const nextForecasts = forecast.forecast.forecastday.slice(-2);
-    return nextForecasts.map((nextForecast) =>
-      ForecastParser.nextForecastsSingle(nextForecast, forecastLocationName),
-    );
+    return forecast.forecast.forecastday
+      .slice(-2)
+      .map((nextForecast) =>
+        ForecastParser.nextForecastsSingle(nextForecast, forecastLocationName),
+      );
   },
-  nextForecastsSingle: (nextForecasts: ForecastDay, locationName: string) => {
+  nextForecastsSingle: (nextForecasts: ForecastDay, locationName: string): NextForecastList => {
     const { day, date, hour } = nextForecasts;
 
     return {
@@ -37,20 +39,15 @@ export const ForecastParser = {
       hourlyForecast: hour,
     };
   },
-  forecastDetail: (nextForecastList: NextForecastList[]) => {
-    const forecastDetail: { [key: string]: NextForecastList } = {};
-    nextForecastList.forEach((forecast) => {
-      forecastDetail[forecast.forecastDate] = forecast;
-    });
-
-    return forecastDetail;
+  forecastDetail: (nextForecastList: NextForecastList[]): Record<string, NextForecastList> => {
+    return nextForecastList.reduce(
+      (detail, forecast) => {
+        detail[forecast.forecastDate] = forecast;
+        return detail;
+      },
+      {} as Record<string, NextForecastList>,
+    );
   },
-  autocomplete: (autocompleteListNames: AutocompleteResponse[]) => {
-    const aucompleteNames = autocompleteListNames.map((location) => ({
-      name: location.name,
-      id: location.id,
-      region: location.region,
-    }));
-    return aucompleteNames;
-  },
+  autocomplete: (autocompleteListNames: AutocompleteResponse[]) =>
+    autocompleteListNames.map(({ name, id, region }) => ({ name, id, region })),
 };
