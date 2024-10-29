@@ -1,8 +1,17 @@
 import { render, fireEvent, screen } from "@testing-library/react-native";
 import { Weather } from "./Weather";
 import { AutocompleList, CurrentForecast, NextForecastList } from "@/resources/weather/types";
+import { renderRouter, screen as routerScreen } from "expo-router/testing-library";
 
-describe("Weather Component", () => {
+// mock non existing modules due this problem https://github.com/expo/expo/issues/25494
+jest.mock("react-native-reanimated", () => null, {
+  virtual: true,
+});
+jest.mock("@testing-library/jest-native/extend-expect", () => null, {
+  virtual: true,
+});
+
+describe("Weather", () => {
   const mockOnChangeText = jest.fn();
   const mockOnClickInSearchedCity = jest.fn();
   const mockAutocompleteNames: AutocompleList[] = [
@@ -17,6 +26,7 @@ describe("Weather Component", () => {
       region: "Sao Paulo",
     },
   ];
+
   const mockNextForecasts: NextForecastList[] = [
     {
       forecastLocationName: "London",
@@ -35,6 +45,7 @@ describe("Weather Component", () => {
       hourlyForecast: [],
     },
   ];
+
   const mockCurrentForecast: CurrentForecast = {
     name: "Rio de Janeiro",
     forecastIcon: "//icon_url",
@@ -130,5 +141,33 @@ describe("Weather Component", () => {
 
     expect(screen.getByText("28/10")).toBeTruthy();
     expect(screen.getByText("29/10")).toBeTruthy();
+  });
+
+  it("should navigates to the details screen when a forecast item is pressed", () => {
+    renderRouter(
+      {
+        index: () => (
+          <Weather
+            searchedCity="Rio de Janeiro"
+            onChangeText={mockOnChangeText}
+            autocompleteNames={[]}
+            onClickInSearchedCity={mockOnClickInSearchedCity}
+            currentForecast={mockCurrentForecast}
+            nextForecasts={mockNextForecasts}
+          />
+        ),
+        "details/[forecastDate]": () => <div>Forecast Details Screen</div>,
+      },
+      {
+        initialUrl: "/",
+      },
+    );
+
+    expect(screen).toHavePathname("/");
+
+    const forecastItem = routerScreen.getByText("28/10");
+    fireEvent.press(forecastItem);
+
+    expect(screen).toHavePathname("/details/2024-10-28");
   });
 });
