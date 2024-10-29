@@ -6,8 +6,16 @@ describe("Weather Component", () => {
   const mockOnChangeText = jest.fn();
   const mockOnClickInSearchedCity = jest.fn();
   const mockAutocompleteNames: AutocompleList[] = [
-    { id: "1", name: "Florianopolis" },
-    { id: "2", name: "Sao Paulo" },
+    {
+      id: "1",
+      name: "Florianopolis",
+      region: "Santa Catarina",
+    },
+    {
+      id: "2",
+      name: "Sao Paulo",
+      region: "Sao Paulo",
+    },
   ];
   const mockNextForecasts: NextForecastList[] = [
     {
@@ -88,8 +96,8 @@ describe("Weather Component", () => {
       />,
     );
 
-    expect(screen.getByText("Florianopolis")).toBeTruthy();
-    expect(screen.getByText("Sao Paulo")).toBeTruthy();
+    expect(screen.getByText("Florianopolis - Santa Catarina")).toBeTruthy();
+    expect(screen.getByText("Sao Paulo - Sao Paulo")).toBeTruthy();
   });
 
   it("should triggers onClickInSearchedCity when a suggestion is clicked", () => {
@@ -104,7 +112,7 @@ describe("Weather Component", () => {
       />,
     );
 
-    fireEvent.press(screen.getByText("Florianopolis"));
+    fireEvent.press(screen.getByText("Florianopolis - Santa Catarina"));
     expect(mockOnClickInSearchedCity).toHaveBeenCalledWith("Florianopolis");
   });
 

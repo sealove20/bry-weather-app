@@ -4,9 +4,9 @@ import { Autocomplete } from "./Autocomplete";
 
 describe("Autocomplete", () => {
   const mockData = [
-    { id: "1", name: "Florianopolis" },
-    { id: "2", name: "Florida" },
-    { id: "3", name: "Florence" },
+    { id: "1", name: "Florianopolis", region: "Santa Catarina" },
+    { id: "2", name: "Florida", region: "Camaguey" },
+    { id: "3", name: "Florence", region: "Toscana" },
   ];
 
   const mockOnClick = jest.fn();
@@ -19,14 +19,14 @@ describe("Autocomplete", () => {
     render(<Autocomplete autocompleteNames={mockData} onClickInSearchedCity={mockOnClick} />);
 
     mockData.forEach((item) => {
-      expect(screen.getByText(item.name)).toBeTruthy();
+      expect(screen.getByText(`${item.name} - ${item.region}`)).toBeTruthy();
     });
   });
 
   it("should calls the onClickInSearchedCity function with the correct item name on item click", () => {
     render(<Autocomplete autocompleteNames={mockData} onClickInSearchedCity={mockOnClick} />);
 
-    fireEvent.press(screen.getByText("Florida"));
+    fireEvent.press(screen.getByText("Florida - Camaguey"));
     expect(mockOnClick).toHaveBeenCalledWith("Florida");
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
@@ -34,8 +34,8 @@ describe("Autocomplete", () => {
   it("should renders an empty list without errors if autocompleteNames is empty", () => {
     render(<Autocomplete autocompleteNames={[]} onClickInSearchedCity={mockOnClick} />);
 
-    expect(screen.queryByText("Florianopolis")).toBeNull();
-    expect(screen.queryByText("Florida")).toBeNull();
-    expect(screen.queryByText("Florence")).toBeNull();
+    expect(screen.queryByText("Florianopolis - Santa Catarina")).toBeNull();
+    expect(screen.queryByText("Florida - Camaguey")).toBeNull();
+    expect(screen.queryByText("Florence - Toscana")).toBeNull();
   });
 });
