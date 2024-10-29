@@ -10,7 +10,7 @@ jest.mock("@/resources/weather/weather", () => ({
   getAutocomplete: jest.fn(),
 }));
 
-jest.mock("@/hooks/useAsyncStorage", () => ({
+jest.mock("@/hooks/useAsyncStorage/useAsyncStorage", () => ({
   storeData: jest.fn(),
 }));
 
