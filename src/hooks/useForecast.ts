@@ -1,7 +1,6 @@
 import { ForecastParser } from "@/resources/weather/parser";
 import {
   AutocompleList,
-  AutocompleteResponse,
   CurrentForecast,
   Forecast,
   NextForecastList,
@@ -9,72 +8,97 @@ import {
 } from "@/resources/weather/types";
 import { getByCityName, getByUserCoordinates, getAutocomplete } from "@/resources/weather/weather";
 import { storeData } from "@/hooks/useAsyncStorage";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+export interface UseForecastState {
+  currentForecast?: CurrentForecast;
+  nextForecasts: NextForecastList[];
+  autocompleteNames: AutocompleList[];
+}
+
+interface FetchState {
+  loading: boolean;
+  error?: string | null;
+}
 
 export const useForecast = () => {
-  const [nextForecasts, setNextForecasts] = useState<NextForecastList[]>([]);
-  const [currentForecast, setCurrentForecast] = useState<CurrentForecast>();
-  const [autocompleteNames, setAutocompleteNames] = useState<AutocompleList[]>([]);
+  const [forecastState, setForecastState] = useState<UseForecastState>({
+    nextForecasts: [],
+    autocompleteNames: [],
+  });
 
-  const [loading, setLoading] = useState(false);
+  const [fetchState, setFetchState] = useState<FetchState>({ loading: false });
+
+  const setLoading = (isLoading: boolean) =>
+    setFetchState((prev) => ({ ...prev, loading: isLoading }));
 
   const handleForecastResponse = async (response: Forecast) => {
     const forecast = ForecastParser.current(response);
     const nextForecastsList = ForecastParser.nextForecastsList(response);
     const forecastDetails = ForecastParser.forecastDetail(nextForecastsList);
 
-    for (let forecast of nextForecastsList) {
-      storeData(forecast.forecastDate, forecastDetails[forecast.forecastDate]);
-    }
-    setCurrentForecast(forecast);
-    setNextForecasts(nextForecastsList);
+    await Promise.all(
+      nextForecastsList.map((forecast) =>
+        storeData(forecast.forecastDate, forecastDetails[forecast.forecastDate]),
+      ),
+    );
+
+    setForecastState((prev) => ({
+      ...prev,
+      currentForecast: forecast,
+      nextForecasts: nextForecastsList,
+    }));
 
     return nextForecastsList;
   };
 
-  const fetchForecastByUserCoordinates = async (userCoordinates: UserCoordinates) => {
+  const fetchForecast = useCallback(async (fetchFunction: () => Promise<Forecast>) => {
     setLoading(true);
     try {
-      const response = await getByUserCoordinates(userCoordinates);
+      const response = await fetchFunction();
       await handleForecastResponse(response);
     } catch (error) {
-      console.error(error);
+      console.error("Forecast Fetch Error:", error);
+      setFetchState((prev) => ({ ...prev }));
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchByCityName = async (cityName: string) => {
-    if (!cityName) {
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await getByCityName(cityName);
-      await handleForecastResponse(response);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchForecastByUserCoordinates = useCallback(
+    async (userCoordinates: UserCoordinates) => {
+      await fetchForecast(() => getByUserCoordinates(userCoordinates));
+    },
+    [fetchForecast],
+  );
 
-  const fetchAutocompleteCityByName = async (searchedCity: string) => {
+  const fetchByCityName = useCallback(
+    async (cityName: string) => {
+      if (cityName) {
+        await fetchForecast(() => getByCityName(cityName));
+      }
+    },
+    [fetchForecast],
+  );
+
+  const fetchAutocompleteCityByName = useCallback(async (searchedCity: string) => {
     try {
       const response = await getAutocomplete(searchedCity);
       const autocompleteNamesList = ForecastParser.autocomplete(response);
-      setAutocompleteNames(autocompleteNamesList);
+      setForecastState((prev) => ({
+        ...prev,
+        autocompleteNames: autocompleteNamesList,
+      }));
     } catch (error) {
-      console.error(error);
+      console.error("Autocomplete Fetch Error:", error);
+      setFetchState((prev) => ({ ...prev }));
     }
-  };
+  }, []);
 
   return {
-    nextForecasts,
-    currentForecast,
-    autocompleteNames,
-    setAutocompleteNames,
-    forecastLoading: loading,
+    ...forecastState,
+    setForecastState,
+    forecastLoading: fetchState.loading,
     fetchForecastByUserCoordinates,
     fetchByCityName,
     fetchAutocompleteCityByName,

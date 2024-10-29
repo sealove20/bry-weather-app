@@ -20,14 +20,14 @@ export default function Main() {
     fetchForecastByUserCoordinates,
     fetchByCityName,
     autocompleteNames,
-    setAutocompleteNames,
+    setForecastState,
     fetchAutocompleteCityByName,
   } = useForecast();
 
   const { searchedCity, setSearchedCity } = useForecastContext();
 
   const { onChangeText, onClickInSearchedCity } = useSearchHandlers({
-    setAutocompleteNames,
+    setForecastState,
     fetchAutocompleteCityByName,
     setSearchedCity,
     fetchByCityName,
