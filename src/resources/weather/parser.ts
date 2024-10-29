@@ -49,6 +49,7 @@ export const ForecastParser = {
     const aucompleteNames = autocompleteListNames.map((location) => ({
       name: location.name,
       id: location.id,
+      region: location.region,
     }));
     return aucompleteNames;
   },
