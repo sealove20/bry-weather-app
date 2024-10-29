@@ -11,7 +11,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint .",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --coverage=false",
+    "testDebug": "jest -o --watchAll --coverage=false",
+    "coverage": "jest"
   },
   "dependencies": {
     "expo": "~51.0.28",
@@ -56,5 +58,14 @@
       "<rootDir>/jest-setup.js"
     ]
   },
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "**/*.{ts,tsx,js,jsx}",
+    "!**/coverage/**",
+    "!**/node_modules/**",
+    "!**/babel.config.js",
+    "!**/expo-env.d.ts",
+    "!**/.expo/**"
+  ],
   "private": true
 }
