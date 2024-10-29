@@ -1,6 +1,8 @@
 import { Link } from "expo-router";
 import {
   ActivityIndicator,
+  AppState,
+  AppStateStatus,
   Button,
   FlatList,
   Pressable,
@@ -23,8 +25,18 @@ import { useForecastContext } from "@/store/searchedCity";
 import { Loading } from "@/components/Loading";
 import { debounce } from "@/hooks/useDebounce";
 import { Autocomplete } from "@/components/Autocomplete";
+import { LocationPermission } from "@/components/LocationPermission/LocationPermission";
+import { Weather } from "@/components/Weather/Weather";
+import { useAppStateHandler } from "@/hooks/useAppStateHandler";
 export default function Main() {
-  const { latitude, longitude, askForPermission } = useLocation();
+  const {
+    latitude,
+    longitude,
+    loadCurrentLocationWeather,
+    locationPermission,
+    checkLocationPermission,
+    goToSettings,
+  } = useLocation();
   const {
     nextForecasts,
     currentForecast,
@@ -38,25 +50,7 @@ export default function Main() {
   const [locationLoading, setLocationLoading] = useState(false);
   const { searchedCity, setSearchedCity } = useForecastContext();
 
-  const loadCurrentLocationWeather = async () => {
-    setLocationLoading(true);
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      askForPermission();
-      return;
-    }
-
-    let location = await Location.getCurrentPositionAsync();
-
-    fetchForecastByUserCoordinates({
-      latitude: location.coords.latitude,
-      longitude: location?.coords.longitude,
-    });
-
-    if (status === "granted") {
-      setLocationLoading(false);
-    }
-  };
+  const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
 
   const debouncedSearch = useCallback(
     debounce((query: string) => {
@@ -65,12 +59,15 @@ export default function Main() {
     [],
   );
 
-  const onChangeText = (text: string) => {
-    setSearchedCity(text);
-    if (text) {
-      debouncedSearch(text);
-    }
-  };
+  const onChangeText = useCallback(
+    (text: string) => {
+      setSearchedCity(text);
+      if (text) {
+        debouncedSearch(text);
+      }
+    },
+    [setSearchedCity],
+  );
 
   const onClickInSearchedCity = useCallback((cityName: string) => {
     setSearchedCity(cityName);
@@ -78,12 +75,19 @@ export default function Main() {
     setAutocompleteNames([]);
   }, []);
 
-  useEffect(() => {
+  const initialLoad = () => {
+    checkLocationPermission();
     if (!searchedCity) {
-      loadCurrentLocationWeather();
+      loadCurrentLocationWeather(fetchForecastByUserCoordinates);
     } else {
       fetchByCityName(searchedCity);
     }
+  };
+
+  useAppStateHandler({ initialLoad });
+
+  useEffect(() => {
+    initialLoad();
   }, []);
 
   if (locationLoading || forecastLoading) {
@@ -92,38 +96,20 @@ export default function Main() {
 
   return (
     <>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => onChangeText(text)}
-          value={searchedCity}
-          placeholder="Nome da cidade"
-        />
-        {autocompleteNames.length > 0 && (
-          <Autocomplete
+      {locationPermission !== Location.PermissionStatus.GRANTED ? (
+        <LocationPermission goToSettings={goToSettings} />
+      ) : (
+        <>
+          <Weather
             autocompleteNames={autocompleteNames}
+            currentForecast={currentForecast}
+            nextForecasts={nextForecasts}
+            onChangeText={onChangeText}
             onClickInSearchedCity={onClickInSearchedCity}
+            searchedCity={searchedCity}
           />
-        )}
-      </View>
-      <ForecastCard
-        name={currentForecast?.name}
-        forecastIcon={currentForecast?.forecastIcon}
-        humidity={currentForecast?.humidity}
-        temperature={currentForecast?.temperature}
-      />
-      <CustomText size="sm" style={styles.nextForecastTitle}>
-        Próximos dias
-      </CustomText>
-      <View style={styles.weatherForecastMiniatureContainer}>
-        {nextForecasts?.map((forecast) => (
-          <Link href={`/details/${forecast.forecastDate}`} asChild>
-            <Pressable style={styles.weatherForecastMiniature} key={forecast.forecastDate}>
-              <NextForecast nextForecast={forecast} />
-            </Pressable>
-          </Link>
-        ))}
-      </View>
+        </>
+      )}
     </>
   );
 }
@@ -135,6 +121,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     borderRadius: 5,
+  },
+  permissionCard: {
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: colors.yellow.dark,
+    width: "100%",
+    height: 250,
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 15,
+  },
+  permissionCardButton: {
+    borderWidth: 1,
+    borderColor: colors.white,
+    borderRadius: 15,
+    marginTop: 10,
+    padding: 7,
   },
   loadingContainer: {
     flex: 1,
