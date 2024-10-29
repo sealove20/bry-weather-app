@@ -15,7 +15,8 @@
     "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
-      "deploymentTarget": "17"
+      "deploymentTarget": "17",
+      "bundleIdentifier": "com.weatherapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +25,8 @@
       },
       "compileSdkVersion": 33,
       "targetSdkVersion": 33,
-      "buildToolsVersion": "33.0.0"
+      "buildToolsVersion": "33.0.0",
+      "package": "com.weatherapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

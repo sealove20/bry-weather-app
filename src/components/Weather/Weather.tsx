@@ -51,7 +51,7 @@ export const Weather = ({
     <View style={styles.weatherForecastMiniatureContainer}>
       {nextForecasts?.map((forecast) => (
         <Link href={`/details/${forecast.forecastDate}`} asChild key={forecast.forecastDate}>
-          <Pressable style={styles.weatherForecastMiniature}>
+          <Pressable style={styles.weatherForecastMiniature} testID="next-forecast-button">
             <NextForecast nextForecast={forecast} />
           </Pressable>
         </Link>

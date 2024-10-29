@@ -1,0 +1,20 @@
+appId: com.weatherapp
+---
+- openLink: exp://192.168.0.58:8081
+- assertVisible: "Nome da cidade"
+
+- tapOn: "Nome da cidade"
+- inputText: "Florianopolis"
+
+- tapOn: "Florianopolis - Santa Catarina"
+
+- assertVisible: "Próximos dias"
+
+- tapOn:
+    id: "next-forecast-button"
+    index: 0
+
+- assertVisible:
+    id: "forecast-image"
+
+- back
