@@ -51,7 +51,7 @@ describe("useSearchHandlers", () => {
     expect(mockFetchAutocompleteCityByName).not.toHaveBeenCalled();
   });
 
-  it.only("should call setSearchedCity, fetchByCityName, and clear autocompleteNames on city click", () => {
+  it("should call setSearchedCity, fetchByCityName, and clear autocompleteNames on city click", () => {
     const { result } = renderHook(() =>
       useSearchHandlers({
         setForecastState: mockSetForecastState,
