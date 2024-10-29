@@ -8,6 +8,7 @@ import { ForecastCard } from "@/components/ForecastCard";
 import { NextForecastList } from "@/resources/weather/types";
 import { colors } from "@/tokens/colors";
 import { CustomText } from "@/components/CustomText";
+import { HourlyForecastDetail } from "@/components/HourlyForecastInfo/HourlyForecastDetail";
 
 export default function DetailsPage() {
   const { id } = useLocalSearchParams();
@@ -30,25 +31,7 @@ export default function DetailsPage() {
         humidity={forecastDetails?.averageHumidity}
         temperature={forecastDetails?.averageTemperature}
       />
-      <FlatList
-        data={forecastDetails?.hourlyForecast}
-        horizontal
-        renderItem={({ item }) => (
-          <View style={styles.horizontal}>
-            <CustomText size="xsm">{formatTime(item?.time)}</CustomText>
-            <Image
-              style={styles.image}
-              source={{ uri: `https:${item?.condition.icon}` }}
-              contentFit="cover"
-              transition={1000}
-              alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
-              testID="forecast-image"
-            />
-            <CustomText size="xsm">{Math.floor(item.temp_c)}°C</CustomText>
-          </View>
-        )}
-        keyExtractor={(item) => item.time}
-      />
+      <HourlyForecastDetail forecastDetails={forecastDetails?.hourlyForecast} />
     </>
   );
 }
