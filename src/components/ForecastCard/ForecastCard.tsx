@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { CustomText } from "@/components/CustomText";
 import { colors } from "@/tokens/colors";

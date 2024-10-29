@@ -3,7 +3,7 @@ import { CustomText } from "../CustomText";
 import { Image } from "expo-image";
 import { formatTime } from "@/commons/formatters/time";
 import { colors } from "@/tokens/colors";
-import { Hour, NextForecastList } from "@/resources/weather/types";
+import { Hour } from "@/resources/weather/types";
 
 interface HourlyForecastDetailProps {
   forecastDetails?: Hour[];

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { NextForecastList } from "@/resources/weather/types";
 import { formatDate } from "@/commons/formatters/date";

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react-native";
 import { HourlyForecastDetail } from "./HourlyForecastDetail";
-import { Hour, NextForecastList } from "@/resources/weather/types";
+import { Hour } from "@/resources/weather/types";
 
 describe("HourlyForecastDetail", () => {
   const mockData: Hour[] = [
