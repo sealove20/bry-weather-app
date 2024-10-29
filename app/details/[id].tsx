@@ -4,7 +4,7 @@ import { getData } from "@/storage/asyncStorage";
 import { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import { formatTime } from "@/commons/formatters/time";
-import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
+import { ForecastCard } from "@/components/ForecastCard";
 import { NextForecastList } from "@/resources/weather/types";
 import { colors } from "@/tokens/colors";
 import { CustomText } from "@/components/CustomText";

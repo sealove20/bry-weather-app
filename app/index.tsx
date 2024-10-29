@@ -15,12 +15,12 @@ import { Image } from "expo-image";
 import { useLocation } from "@/hooks/useLocation";
 import { useEffect, useState, useCallback } from "react";
 import * as Location from "expo-location";
-import { ForecastCard } from "@/components/ForecastCard/ForecastCard";
+import { ForecastCard } from "@/components/ForecastCard";
 import { colors } from "@/tokens/colors";
-import { NextForecast } from "@/components/NextForecast/NextForecast";
+import { NextForecast } from "@/components/NextForecast";
 import { CustomText } from "@/components/CustomText";
 import { useForecastContext } from "@/store/searchedCity";
-import { Loading } from "@/components/Loading/Loading";
+import { Loading } from "@/components/Loading";
 import { debounce } from "@/hooks/useDebounce";
 import { Autocomplete } from "@/components/Autocomplete";
 export default function Main() {
