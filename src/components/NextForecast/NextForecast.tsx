@@ -19,7 +19,7 @@ export const NextForecast = ({ nextForecast }: NextForecastProps): JSX.Element =
           contentFit="cover"
           transition={500}
           alt="Image of a visual graphic representation of weather, like rainy, sunny, cloudy"
-          testID="forecast-image"
+          testID="next-forecast-image"
         />
       </View>
       <CustomText size="sm">Umidade {nextForecast?.averageHumidity}%</CustomText>
