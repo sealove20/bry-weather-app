@@ -54,7 +54,7 @@ export default function Main() {
     initialLoad();
   }, []);
 
-  if (!permissionChecked || forecastLoading) {
+  if (!permissionChecked || forecastLoading || !currentForecast) {
     return <Loading />;
   }
 
