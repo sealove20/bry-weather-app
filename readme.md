@@ -42,9 +42,8 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
 - **Maestro** (para testes E2E):
 
-  ```bash
-  curl -Ls "https://get.maestro.mobile.dev" | bash
-  ```
+    [Instale conforme o seu sistema operacional](https://maestro.mobile.dev/getting-started/installing-maestro)
+
 
 - **Android Studio** ou **Xcode** para emuladores (opcional).
 
@@ -94,6 +93,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
      ```
 
    - **Testes E2E** com Maestro:
+     Para rodar os testes E2E é necessário estar com o emulador aberto.
      ```bash
      maestro test maestro/basic-flow.yaml
      ```
