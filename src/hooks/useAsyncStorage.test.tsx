@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NextForecastList } from "../resources/weather/types";
-import { storeData, getData } from "./asyncStorage";
+import { storeData, getData } from "./useAsyncStorage";
 
 const mockForecast: NextForecastList = {
   forecastDate: "2024-10-29",

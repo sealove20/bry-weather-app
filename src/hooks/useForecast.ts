@@ -8,7 +8,7 @@ import {
   UserCoordinates,
 } from "@/resources/weather/types";
 import { getByCityName, getByUserCoordinates, getAutocomplete } from "@/resources/weather/weather";
-import { storeData } from "@/storage/asyncStorage";
+import { storeData } from "@/hooks/useAsyncStorage";
 import { useState } from "react";
 
 export const useForecast = () => {

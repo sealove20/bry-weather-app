@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { Animated } from "react-native";
-import { getData } from "@/storage/asyncStorage";
+import { getData } from "@/hooks/useAsyncStorage";
 import { useEffect, useState } from "react";
 import { ForecastCard } from "@/components/ForecastCard";
 import { NextForecastList } from "@/resources/weather/types";
