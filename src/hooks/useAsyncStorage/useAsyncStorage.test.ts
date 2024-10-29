@@ -50,7 +50,7 @@ const mockForecast: NextForecastList = {
 
 describe("Storage functions", () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Clear all mocks after each test
+    jest.clearAllMocks();
   });
 
   it("should store data successfully", async () => {
@@ -103,7 +103,7 @@ describe("Storage functions", () => {
     const result = await getData("forecastKey");
 
     expect(getItemSpy).toHaveBeenCalledWith("forecastKey");
-    expect(result).toBeUndefined(); // Function doesn't return a value on error
+    expect(result).toBeUndefined();
     expect(console.error).toHaveBeenCalledWith(
       "Failed to retrieve data for key forecastKey:",
       error,
