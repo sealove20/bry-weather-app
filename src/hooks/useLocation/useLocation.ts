@@ -11,6 +11,7 @@ export const useLocation = () => {
   const checkLocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     setLocationPermission(status);
+    return status;
   };
 
   const goToSettings = useCallback(() => {

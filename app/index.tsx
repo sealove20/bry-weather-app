@@ -33,12 +33,18 @@ export default function Main() {
     fetchByCityName,
   });
 
-  const initialLoad = useCallback(() => {
-    checkLocationPermission();
-    if (!searchedCity) {
-      loadCurrentLocationWeather(fetchForecastByUserCoordinates);
-    } else {
-      fetchByCityName(searchedCity);
+  const [permissionChecked, setPermissionChecked] = useState(false);
+
+  const initialLoad = useCallback(async () => {
+    const status = await checkLocationPermission();
+    setPermissionChecked(true);
+
+    if (status === Location.PermissionStatus.GRANTED) {
+      if (!searchedCity) {
+        loadCurrentLocationWeather(fetchForecastByUserCoordinates);
+      } else {
+        fetchByCityName(searchedCity);
+      }
     }
   }, [searchedCity]);
 
@@ -48,7 +54,7 @@ export default function Main() {
     initialLoad();
   }, []);
 
-  if (forecastLoading) {
+  if (!permissionChecked || forecastLoading) {
     return <Loading />;
   }
 
