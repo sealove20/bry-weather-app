@@ -1,0 +1,66 @@
+name: EAS CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to main branch
+  pull_request:
+    branches:
+      - main # Trigger on PR to main branch
+
+jobs:
+  test_and_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 4: Run Jest Tests
+      - name: Run Unit Tests (Jest)
+        run: npm test
+        env:
+          CI: true # Ensures that Jest runs in CI mode
+
+      # Step 5: Run Maestro Tests (E2E)
+      - name: Run E2E Tests (Maestro)
+        run: |
+          maestro test maestro/basic-flow.yaml
+        env:
+          MAESTRO_CLI_HOME: /tmp/maestro
+
+      # Step 6: Login to Expo
+      - name: Login to Expo
+        run: npx expo login --token ${{ secrets.EXPO_TOKEN }}
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      # Step 7: EAS Build - Android
+      - name: EAS Build - Android
+        run: npx eas build --platform android --profile preview --non-interactive
+        env:
+          EAS_NO_VCS: 1 # Disable Git validation to allow builds on CI
+
+      # Step 8: EAS Build - iOS
+      - name: EAS Build - iOS
+        run: npx eas build --platform ios --profile preview --non-interactive
+        env:
+          EAS_NO_VCS: 1 # Disable Git validation to allow builds on CI
+
+      # Step 9: Upload Build Artifacts
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: dist/
