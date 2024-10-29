@@ -6,7 +6,7 @@ jest.mock("@/hooks/useDebounce", () => ({
 }));
 
 describe("useSearchHandlers", () => {
-  const mockSetAutocompleteNames = jest.fn();
+  const mockSetForecastState = jest.fn();
   const mockFetchAutocompleteCityByName = jest.fn();
   const mockSetSearchedCity = jest.fn();
   const mockFetchByCityName = jest.fn();
@@ -18,7 +18,7 @@ describe("useSearchHandlers", () => {
   it("should call setSearchedCity and debouncedSearch when onChangeText is called", () => {
     const { result } = renderHook(() =>
       useSearchHandlers({
-        setAutocompleteNames: mockSetAutocompleteNames,
+        setForecastState: mockSetForecastState,
         fetchAutocompleteCityByName: mockFetchAutocompleteCityByName,
         setSearchedCity: mockSetSearchedCity,
         fetchByCityName: mockFetchByCityName,
@@ -36,7 +36,7 @@ describe("useSearchHandlers", () => {
   it("should not call fetchAutocompleteCityByName if text is empty", () => {
     const { result } = renderHook(() =>
       useSearchHandlers({
-        setAutocompleteNames: mockSetAutocompleteNames,
+        setForecastState: mockSetForecastState,
         fetchAutocompleteCityByName: mockFetchAutocompleteCityByName,
         setSearchedCity: mockSetSearchedCity,
         fetchByCityName: mockFetchByCityName,
@@ -51,10 +51,10 @@ describe("useSearchHandlers", () => {
     expect(mockFetchAutocompleteCityByName).not.toHaveBeenCalled();
   });
 
-  it("should call setSearchedCity, fetchByCityName, and clear autocompleteNames on city click", () => {
+  it.only("should call setSearchedCity, fetchByCityName, and clear autocompleteNames on city click", () => {
     const { result } = renderHook(() =>
       useSearchHandlers({
-        setAutocompleteNames: mockSetAutocompleteNames,
+        setForecastState: mockSetForecastState,
         fetchAutocompleteCityByName: mockFetchAutocompleteCityByName,
         setSearchedCity: mockSetSearchedCity,
         fetchByCityName: mockFetchByCityName,
@@ -67,6 +67,13 @@ describe("useSearchHandlers", () => {
 
     expect(mockSetSearchedCity).toHaveBeenCalledWith("Paris");
     expect(mockFetchByCityName).toHaveBeenCalledWith("Paris");
-    expect(mockSetAutocompleteNames).toHaveBeenCalledWith([]);
+
+    // Check that setForecastState is called with a function that clears autocompleteNames
+    expect(mockSetForecastState).toHaveBeenCalledWith(expect.any(Function));
+    // Simulate the function call to verify its behavior
+    const stateUpdater = mockSetForecastState.mock.calls[0][0];
+    const newState = stateUpdater({ autocompleteNames: ["Old City"] });
+
+    expect(newState.autocompleteNames).toEqual([]);
   });
 });

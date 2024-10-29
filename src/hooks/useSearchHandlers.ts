@@ -1,17 +1,20 @@
-import { useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { debounce } from "@/hooks/useDebounce";
+import { UseForecastState } from "./useForecast";
 
-export const useSearchHandlers = ({
-  setAutocompleteNames,
-  fetchAutocompleteCityByName,
-  setSearchedCity,
-  fetchByCityName,
-}: {
-  setAutocompleteNames: (names: any[]) => void;
+interface UseSearchHandlersProps {
+  setForecastState: Dispatch<SetStateAction<UseForecastState>>;
   fetchAutocompleteCityByName: (query: string) => void;
   setSearchedCity: (city: string) => void;
   fetchByCityName: (city: string) => void;
-}) => {
+}
+
+export const useSearchHandlers = ({
+  setForecastState,
+  fetchAutocompleteCityByName,
+  setSearchedCity,
+  fetchByCityName,
+}: UseSearchHandlersProps) => {
   const debouncedSearch = useCallback(
     debounce((query: string) => {
       fetchAutocompleteCityByName(query);
@@ -33,9 +36,12 @@ export const useSearchHandlers = ({
     (cityName: string) => {
       setSearchedCity(cityName);
       fetchByCityName(cityName);
-      setAutocompleteNames([]);
+      setForecastState((prev) => ({
+        ...prev,
+        autocompleteNames: [],
+      }));
     },
-    [setSearchedCity, fetchByCityName, setAutocompleteNames],
+    [setSearchedCity, fetchByCityName],
   );
 
   return { onChangeText, onClickInSearchedCity };
