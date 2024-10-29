@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/tokens/colors";
 import { LinearGradient } from "expo-linear-gradient";
-import { ForecastProvider } from "@/store/searchedCity";
+import { ForecastProvider } from "@/store/ForecastContext";
 
 export default function DefaultLayout() {
   return (

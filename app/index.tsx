@@ -1,7 +1,7 @@
 import { useForecast } from "@/hooks/useForecast/useForecast";
 import { useEffect, useState, useCallback } from "react";
 import * as Location from "expo-location";
-import { useForecastContext } from "@/store/searchedCity";
+import { useForecastContext } from "@/store/ForecastContext";
 import { Loading } from "@/components/Loading";
 import { LocationPermission } from "@/components/LocationPermission/LocationPermission";
 import { Weather } from "@/components/Weather/Weather";
