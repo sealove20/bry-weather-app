@@ -1,4 +1,4 @@
-import { useForecast } from "@/hooks/useForecast";
+import { useForecast } from "@/hooks/useForecast/useForecast";
 import { useLocation } from "@/hooks/useLocation";
 import { useEffect, useState, useCallback } from "react";
 import * as Location from "expo-location";
