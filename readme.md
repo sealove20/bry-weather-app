@@ -77,6 +77,11 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
    ```
    cp .env.example .env
+
+   ```
+   adicione sua chave na variável abaixo
+
+    ```
    EXPO_PUBLIC_API_KEY=sua-chave-de-api
    ```
 
