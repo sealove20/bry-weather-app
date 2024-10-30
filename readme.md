@@ -63,7 +63,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
    ```bash
    git clone https://github.com/sealove20/bry-weather-app.git
-   cd weather-app
+   cd bry-weather-app
    ```
 
 2. **Instale as dependências**:
@@ -73,6 +73,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
    ```
 
 3. **Adicione sua chave de API do clima**:
+   A chave pode ser gerada aqui **https://www.weatherapi.com/**
 
    Crie um arquivo `.env` na raiz do projeto:
 
@@ -86,13 +87,13 @@ Certifique-se de ter as seguintes ferramentas instaladas:
    EXPO_PUBLIC_API_KEY=sua-chave-de-api
    ```
 
-4. **Execute o aplicativo no emulador ou dispositivo físico**:
+5. **Execute o aplicativo no emulador ou dispositivo físico**:
 
      ```bash
      npm run start
      ```
 
-5. **Execute os testes localmente**:
+6. **Execute os testes localmente**:
 
    - **Testes unitários** com Jest:
 
@@ -106,13 +107,13 @@ Certifique-se de ter as seguintes ferramentas instaladas:
      maestro test maestro/basic-flow.yaml
      ```
 
-6. **Execute o Build com EAS**:
+7. **Execute o Build com EAS**:
 
    ```bash
    eas build --platform android --profile preview
    ```
    
-7. **Coverage**
+8. **Coverage**
    ```bash
    npm run coverage
    ```
