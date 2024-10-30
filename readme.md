@@ -1,5 +1,12 @@
 # 🌦️ Bry WeatherApp
 
+
+## 📱 **Screenshots**
+
+<img src=".github/wheaterapp.jpeg" width="300" />
+
+---
+
 ## 🛠️ **Bibliotecas Utilizadas**
 
 ### **Bibliotecas Principais**
@@ -124,10 +131,5 @@ O projeto inclui um workflow do **GitHub Actions** para automação de testes e 
 
 ---
 
-## 📱 **Screenshots**
-
-Em breve!
-
----
 
 =) ❤️
