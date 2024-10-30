@@ -61,7 +61,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 1. **Clone o repositório**:
 
    ```bash
-   git clone https://github.com/seu-usuario/weather-app.git
+   git clone https://github.com/sealove20/bry-weather-app.git
    cd weather-app
    ```
 
