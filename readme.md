@@ -74,13 +74,13 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
 3. **Adicione sua chave de API do clima**:
 
-   Crie um arquivo `.env` na raiz do projeto e adicione:
+   Crie um arquivo `.env` na raiz do projeto:
 
    ```
    cp .env.example .env
 
    ```
-   adicione sua chave na variável abaixo
+   adicione sua chave no arquivo `.env`
 
     ```
    EXPO_PUBLIC_API_KEY=sua-chave-de-api
@@ -88,13 +88,8 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
 4. **Execute o aplicativo no emulador ou dispositivo físico**:
 
-   - Para Android:
      ```bash
-     npm run android
-     ```
-   - Para iOS:
-     ```bash
-     npm run ios
+     npm run start
      ```
 
 5. **Execute os testes localmente**:
