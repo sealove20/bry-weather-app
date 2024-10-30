@@ -110,7 +110,11 @@ Certifique-se de ter as seguintes ferramentas instaladas:
    ```bash
    eas build --platform android --profile preview
    ```
-
+   
+7. **Coverage**
+   ```bash
+   npm run coverage
+   ```
 ---
 
 ## 🔄 **Executando o Pipeline de CI/CD**
