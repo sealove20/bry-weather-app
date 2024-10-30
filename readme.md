@@ -41,6 +41,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
 - **Node.js** (v20.18.0 ou superior)
 - **npm** ou **yarn** para gerenciamento de pacotes
+- **git**
 - **Expo CLI**:
 
   ```bash
