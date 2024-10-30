@@ -7,6 +7,11 @@
 
 ---
 
+## 🧪 **Devices testados**
+- Samsung S20FE ✅
+- Android emulator APK 33 ✅
+- IOS Device ❌
+
 ## 🛠️ **Bibliotecas Utilizadas**
 
 ### **Bibliotecas Principais**
